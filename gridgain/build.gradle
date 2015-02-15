@@ -1,4 +1,5 @@
 apply plugin: 'java'
+apply plugin: 'findbugs'
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.2.1'
@@ -9,5 +10,26 @@ repositories {
 }
 
 dependencies {
-    compile 'org.gridgain:gridgain-streaming:6.0.2'
+    compile 'org.gridgain:gridgain-streaming:6.6.2'
+}
+
+findbugs {
+    toolVersion = "3.0.0"
+    ignoreFailures = false
+    effort = "max" //min, default, or max
+    reportLevel = "high" //low, medium, high
+}
+
+findbugsMain {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
+
+findbugsTest {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
 }
