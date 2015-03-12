@@ -1,0 +1,35 @@
+apply plugin: 'java'
+apply plugin: 'findbugs'
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.2.1'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.apache.kafka:kafka_2.10:0.8.2.0'
+}
+
+findbugs {
+    toolVersion = "3.0.0"
+    ignoreFailures = false
+    effort = "max" //min, default, or max
+    reportLevel = "high" //low, medium, high
+}
+
+findbugsMain {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
+
+findbugsTest {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
