@@ -1,8 +1,5 @@
 import org.gridgain.grid.*;
-import org.gridgain.grid.cache.GridCacheConfiguration;
-import org.gridgain.grid.cache.GridCacheDistributionMode;
-import org.gridgain.grid.cache.GridCacheMode;
-import org.gridgain.grid.cache.GridCacheWriteSynchronizationMode;
+import org.gridgain.grid.cache.*;
 
 import java.util.concurrent.*;
 
@@ -21,7 +18,7 @@ import java.util.concurrent.*;
  */
 public final class MessagingExample {
     /** Number of messages. */
-    private static final int MESSAGES_NUM = 100000;
+    private static final int MESSAGES_NUM = 1000000;
 
     /**
      * Executes example.
@@ -30,7 +27,15 @@ public final class MessagingExample {
      * @throws GridException If example execution failed.
      */
     public static void main(String[] args) throws Exception {
-        try (Grid g = GridGain.start(/*"examples/config/example-compute.xml"*/)) {
+        GridCacheConfiguration gridCacheConfiguration = new GridCacheConfiguration();
+        gridCacheConfiguration.setName("TEST");
+        gridCacheConfiguration.setCacheMode(GridCacheMode.REPLICATED);
+
+        GridConfiguration gridConfiguration = new GridConfiguration();
+        gridConfiguration.setCacheConfiguration(gridCacheConfiguration);
+
+
+        try (Grid g = GridGain.start(gridConfiguration)) {
             if (g.nodes().size() < 2) {
                 System.out.println();
                 System.out.println(">>> Please start at least 2 grid nodes to run example.");
@@ -45,7 +50,7 @@ public final class MessagingExample {
             //g.cache("aaa").dataStructures().
 
             // Projection for remote nodes.
-            GridProjection rmtPrj = g.forRemotes();
+            final GridProjection rmtPrj = g.forRemotes();
 
             // Listen for messages from remote nodes to make sure that they received all the messages.
             int msgCnt = /*rmtPrj.nodes().size() **/ MESSAGES_NUM;
@@ -55,22 +60,81 @@ public final class MessagingExample {
 
             localListen(g.forLocal(), orderedLatch, unorderedLatch);
 
-            final long startUnOrdered = System.currentTimeMillis();
-            // Send unordered messages to all remote nodes.
-            for (int i = 0; i < MESSAGES_NUM; i++) {
-                rmtPrj.message().send("UNORDERED", Integer.toString(i));
-            }
+            Executor unorderedExecutor = Executors.newSingleThreadExecutor();
+            unorderedExecutor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    final long startUnOrdered = System.currentTimeMillis();
+                    // Send unordered messages to all remote nodes.
+                    for (int i = 0; i < MESSAGES_NUM; i++) {
+                        try {
+                            rmtPrj.message().send("UNORDERED", Integer.toString(i));
+                        } catch (GridException e) {
+                            e.printStackTrace();
+                        }
+                    }
 
-            System.out.println(">>> Finished sending unordered messages: " + (System.currentTimeMillis() - startUnOrdered));
+                    System.out.println(">>> Finished sending unordered messages: " + (System.currentTimeMillis() - startUnOrdered));
+                }
+            });
 
 
-            final long startOrdered = System.currentTimeMillis();
-            // Send ordered messages to all remote nodes.
-            for (int i = 0; i < MESSAGES_NUM; i++) {
-                rmtPrj.message().sendOrdered("ORDERED", Integer.toString(i), 0);
-            }
+            Executor orderedExecutor = Executors.newSingleThreadExecutor();
+            orderedExecutor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    final long startOrdered = System.currentTimeMillis();
+                    // Send ordered messages to all remote nodes.
+                    for (int i = 0; i < MESSAGES_NUM; i++) {
+                        try {
+                            rmtPrj.message().sendOrdered("ORDERED", Integer.toString(i), 0);
+                        } catch (GridException e) {
+                            e.printStackTrace();
+                        }
+                    }
 
-            System.out.println(">>> Finished sending ordered messages: " + (System.currentTimeMillis() - startOrdered));
+                    System.out.println(">>> Finished sending ordered messages: " + (System.currentTimeMillis() - startOrdered));
+                }
+            });
+
+            Executor putExecutor = Executors.newSingleThreadExecutor();
+            putExecutor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    final long start = System.currentTimeMillis();
+                    // Send ordered messages to all remote nodes.
+                    GridCache<Object, Object> cache = g.cache("TEST");
+                    for (int i = 0; i < MESSAGES_NUM; i++) {
+                        try {
+                            cache.put(i, name(i));
+                        } catch (GridException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    System.out.println("PUT: " + (System.currentTimeMillis() - start) / (float) MESSAGES_NUM);
+                }
+            });
+
+            Executor getExecutor = Executors.newSingleThreadExecutor();
+            getExecutor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    final long stop = System.currentTimeMillis();
+                    // Send ordered messages to all remote nodes.
+                    GridCache<Object, Object> cache = g.cache("TEST");
+                    for (int i = 0; i < MESSAGES_NUM; i++) {
+                        try {
+                            cache.get(i);
+                        } catch (GridException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    System.out.println("GET: " + (System.currentTimeMillis() - stop) / (float) MESSAGES_NUM);
+                }
+            });
+
 
             System.out.println(">>> Check output on all nodes for message printouts.");
             System.out.println(">>> Will wait for messages acknowledgements from all remote nodes.");
@@ -110,5 +174,9 @@ public final class MessagingExample {
             // Return true to continue listening, false to stop.
             return unorderedLatch.getCount() > 0;
         });
+    }
+
+    private static String name(int i) {
+        return String.format("Customer #%d", i);
     }
 }

@@ -11,8 +11,8 @@ public class TestKafka {
     public static void main(String [] args) {
         LOGGER.info("Starting...");
 
-        Producer producerThread = new Producer(KafkaProperties.topic);
-        producerThread.start();
+//        Producer producerThread = new Producer(KafkaProperties.topic);
+//        producerThread.start();
 
         Consumer consumerThread = new Consumer(KafkaProperties.topic);
         consumerThread.start();
