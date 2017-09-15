@@ -6,5 +6,5 @@ repositories {
 }
 
 dependencies {
-    compile 'com.hazelcast:hazelcast-client:3.3.5'
+    compile 'com.hazelcast:hazelcast-client:3.7'
 }

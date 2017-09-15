@@ -31,13 +31,16 @@ public class IntrinoTest {
 
     private static final String USERNMAE = "*";
     private static final String PASSWORD = "*";
+    private static final String HOST = "api.intrinio.com";
+    private static final String SECURITIES_URL = "https://" + HOST + "/securities";
+    private static final String EXCHANGES_URL = "https://" + HOST + "/stock_exchanges?page_size=200";
 
     public static void main(String[] args) throws Exception {
         LOGGER.info("Start");
 
         CloseableHttpClient client = HttpClients.createDefault();
         HttpClientContext context = HttpClientContext.create();
-        HttpGet request = new HttpGet("https://api.intrinio.com/securities");
+        HttpGet request = new HttpGet(EXCHANGES_URL);
         //https://api.intrinio.com/stock_exchanges
         UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(USERNMAE, PASSWORD);
         CredentialsProvider credentialsProvider = new BasicCredentialsProvider();

@@ -1,0 +1,1009 @@
+{
+  "data": [
+    {
+      "symbol": "^ARCX",
+      "mic": "ARCX",
+      "institution_name": "NYSE ARCA",
+      "acronym": "NYSE",
+      "city": "NEW YORK",
+      "country": "UNITED STATES OF AMERICA",
+      "country_code": "US",
+      "website": "WWW.NYSE.COM"
+    },
+    {
+      "symbol": "^ASEX",
+      "mic": "ASEX",
+      "institution_name": "ATHENS STOCK EXCHANGE",
+      "acronym": "ASE",
+      "city": "ATHENS",
+      "country": "GREECE",
+      "country_code": "GR",
+      "website": "HTTP://WWW.ASE.GR"
+    },
+    {
+      "symbol": "^BATE",
+      "mic": "BATE",
+      "institution_name": "BATS EUROPE -BXE ORDER BOOKS",
+      "acronym": "BATS EUROPE",
+      "city": "LONDON",
+      "country": "UNITED KINGDOM",
+      "country_code": "EU",
+      "website": "WWW.BATSTRADING.CO.UK"
+    },
+    {
+      "symbol": "^BATS",
+      "mic": "BATS",
+      "institution_name": "BATS Z-EXCHANGE",
+      "acronym": "BATS",
+      "city": "LENEXA",
+      "country": "UNITED STATES OF AMERICA",
+      "country_code": "US",
+      "website": "HTTP://WWW.BATS.COM"
+    },
+    {
+      "symbol": "^BCSE",
+      "mic": "BCSE",
+      "institution_name": "BELARUS CURRENCY AND STOCK EXCHANGE",
+      "acronym": "BCSE",
+      "city": "MINSK",
+      "country": "BELARUS",
+      "country_code": "BY",
+      "website": "WWW.BCSE.BY"
+    },
+    {
+      "symbol": "^BMEX",
+      "mic": "BMEX",
+      "institution_name": "BME - BOLSAS Y MERCADOS ESPANOLES",
+      "acronym": "BME",
+      "city": "MADRID",
+      "country": "SPAIN",
+      "country_code": "ES",
+      "website": "HTTP://WWW.BOLSASYMERCADOS.ES"
+    },
+    {
+      "symbol": "^BVMF",
+      "mic": "BVMF",
+      "institution_name": "BM&FBOVESPA S.A. - BOLSA DE VALORES, MERCADORIAS E FUTUROS",
+      "acronym": "BVMF",
+      "city": "SAO PAULO",
+      "country": "BRAZIL",
+      "country_code": "BR",
+      "website": "HTTP://WWW.BMFBOVESPA.COM.BR"
+    },
+    {
+      "symbol": "^DIFX",
+      "mic": "DIFX",
+      "institution_name": "NASDAQ DUBAI",
+      "acronym": "NDXB",
+      "city": "DUBAI",
+      "country": "UNITED ARAB EMIRATES",
+      "country_code": "AE",
+      "website": "WWW.NASDAQDUBAI.COM"
+    },
+    {
+      "symbol": "^DSMD",
+      "mic": "DSMD",
+      "institution_name": "QATAR EXCHANGE",
+      "acronym": "DSM",
+      "city": "DOHA",
+      "country": "QATAR",
+      "country_code": "QA",
+      "website": "WWW.QATAREXCHANGE.QA"
+    },
+    {
+      "symbol": "^GSCI",
+      "mic": "GSCI",
+      "institution_name": "THE GUYANA ASSOCIATION OF SECURITIES COMPANIES AND INTERMEDIARIES INC.",
+      "acronym": "GSCI",
+      "city": "GEORGETOWN",
+      "country": "GUYANA",
+      "country_code": "GY",
+      "website": "WWW.GASCI.COM"
+    },
+    {
+      "symbol": "^HSTC",
+      "mic": "HSTC",
+      "institution_name": "HANOI STOCK EXCHANGE",
+      "acronym": "HNX",
+      "city": "HANOI",
+      "country": "VIET NAM",
+      "country_code": "VN",
+      "website": "WWW.HNX.VN"
+    },
+    {
+      "symbol": "^MABX",
+      "mic": "MABX",
+      "institution_name": "MERCADO ALTERNATIVO BURSATIL",
+      "acronym": "MAB",
+      "city": "MADRID",
+      "country": "SPAIN",
+      "country_code": "ES",
+      "website": "WWW.BOLSASYMERCADOS.ES"
+    },
+    {
+      "symbol": "^MALX",
+      "mic": "MALX",
+      "institution_name": "MALDIVES STOCK EXCHANGE",
+      "acronym": "MAL",
+      "city": "MALE",
+      "country": "MALDIVES",
+      "country_code": "MV",
+      "website": "WWW.MSE.COM.MV"
+    },
+    {
+      "symbol": "^MERK",
+      "mic": "MERK",
+      "institution_name": "MERKUR MARKET",
+      "acronym": "MERK",
+      "city": "OSLO",
+      "country": "NORWAY",
+      "country_code": "NO",
+      "website": "WWW.OSLOBORS.NO"
+    },
+    {
+      "symbol": "^MISX",
+      "mic": "MISX",
+      "institution_name": "MOSCOW EXCHANGE",
+      "acronym": "MOEX",
+      "city": "MOSCOW",
+      "country": "RUSSIA",
+      "country_code": "RU",
+      "website": "HTTP://WWW.MICEX.COM"
+    },
+    {
+      "symbol": "^NOTC",
+      "mic": "NOTC",
+      "institution_name": "NORWEGIAN OVER THE COUNTER MARKET",
+      "acronym": "NOTC",
+      "city": "OSLO",
+      "country": "NORWAY",
+      "country_code": "NO",
+      "website": "WWW.NFMF.NO"
+    },
+    {
+      "symbol": "^OTCB",
+      "mic": "OTCB",
+      "institution_name": "OTCQB MARKETPLACE",
+      "acronym": "OTCM",
+      "city": "NEW YORK",
+      "country": "UNITED STATES OF AMERICA",
+      "country_code": "US",
+      "website": "HTTP://WWW.OTCMARKETS.COM"
+    },
+    {
+      "symbol": "^PFTS",
+      "mic": "PFTS",
+      "institution_name": "PFTS STOCK EXCHANGE",
+      "acronym": "PFTS",
+      "city": "KIEV",
+      "country": "UKRAINE",
+      "country_code": "UA",
+      "website": "WWW.PFTS.COM"
+    },
+    {
+      "symbol": "^ROCO",
+      "mic": "ROCO",
+      "institution_name": "TAIPEI EXCHANGE",
+      "acronym": "TPEX",
+      "city": "TAIPEI",
+      "country": "TAIWAN",
+      "country_code": "TW",
+      "website": "WWW.TPEX.ORG.TW"
+    },
+    {
+      "symbol": "^RSEX",
+      "mic": "RSEX",
+      "institution_name": "RWANDA STOCK EXCHANGE",
+      "acronym": "RSE",
+      "city": "KIGALI",
+      "country": "RWANDA",
+      "country_code": "RW",
+      "website": "WWW.RSE.RW"
+    },
+    {
+      "symbol": "^RTSX",
+      "mic": "RTSX",
+      "institution_name": "MOSCOW EXCHANGE-DERIVATIVES AND CLASSICA MARKET",
+      "acronym": "MOEX",
+      "city": "MOSCOW",
+      "country": "RUSSIA",
+      "country_code": "RU",
+      "website": "WWW.MOEX.COM"
+    },
+    {
+      "symbol": "^SEDX",
+      "mic": "SEDX",
+      "institution_name": "SECURITISED DERIVATIVES MARKET",
+      "acronym": "SEDEX",
+      "city": "MILANO",
+      "country": "ITALY",
+      "country_code": "IT",
+      "website": "WWW.BORSAITALIANA.IT"
+    },
+    {
+      "symbol": "^TRPX",
+      "mic": "TRPX",
+      "institution_name": "TROP-X",
+      "acronym": "TROP",
+      "city": "EDEN ISLAND",
+      "country": "REPUBLIC OF SEYCHELLES",
+      "country_code": "SC",
+      "website": "WWW.TROP-X.COM"
+    },
+    {
+      "symbol": "^UKEX",
+      "mic": "UKEX",
+      "institution_name": "UKRAINIAN EXCHANGE",
+      "acronym": "UKE",
+      "city": "KIEV",
+      "country": "UKRAINE",
+      "country_code": "UA",
+      "website": "WWW.UX.UA"
+    },
+    {
+      "symbol": "^USCOMP",
+      "mic": "USCOMP",
+      "institution_name": "US COMPOSITE",
+      "acronym": "USCOMP",
+      "city": null,
+      "country": "UNITED STATES OF AMERICA",
+      "country_code": "US",
+      "website": null
+    },
+    {
+      "symbol": "^XADS",
+      "mic": "XADS",
+      "institution_name": "ABU DHABI SECURITIES EXCHANGE",
+      "acronym": "ADSM",
+      "city": "ABU DHABI",
+      "country": "UNITED ARAB EMIRATES",
+      "country_code": "AE",
+      "website": "WWW.ADX.AE"
+    },
+    {
+      "symbol": "^XALG",
+      "mic": "XALG",
+      "institution_name": "ALGIERS STOCK EXCHANGE",
+      "acronym": "ALG",
+      "city": "ALGIERS",
+      "country": "ALGERIA",
+      "country_code": "DZ",
+      "website": null
+    },
+    {
+      "symbol": "^XAMM",
+      "mic": "XAMM",
+      "institution_name": "AMMAN STOCK EXCHANGE",
+      "acronym": "ASE",
+      "city": "AMMAN",
+      "country": "JORDAN",
+      "country_code": "JO",
+      "website": "WWW.ASE.COM.JO"
+    },
+    {
+      "symbol": "^XAMS",
+      "mic": "XAMS",
+      "institution_name": "EURONEXT - EURONEXT AMSTERDAM",
+      "acronym": "AMS",
+      "city": "AMSTERDAM",
+      "country": "THE NETHERLANDS",
+      "country_code": "NL",
+      "website": "HTTP://WWW.EURONEXT.COM"
+    },
+    {
+      "symbol": "^XARM",
+      "mic": "XARM",
+      "institution_name": "NASDAQ OMX ARMENIA",
+      "acronym": "ARMEX",
+      "city": "YEREVAN",
+      "country": "ARMENIA",
+      "country_code": "AM",
+      "website": "WWW.NASDAQOMX.COM"
+    },
+    {
+      "symbol": "^XASE",
+      "mic": "XASE",
+      "institution_name": "NYSE MKT LLC",
+      "acronym": "AMEX",
+      "city": "NEW YORK",
+      "country": "UNITED STATES OF AMERICA",
+      "country_code": "US",
+      "website": "WWW.NYSE.COM"
+    },
+    {
+      "symbol": "^XASX",
+      "mic": "XASX",
+      "institution_name": "ASX - ALL MARKETS",
+      "acronym": "ASX",
+      "city": "SYDNEY",
+      "country": "AUSTRALIA",
+      "country_code": "AU",
+      "website": "WWW.ASX.COM.AU"
+    },
+    {
+      "symbol": "^XBAA",
+      "mic": "XBAA",
+      "institution_name": "BAHAMAS INTERNATIONAL SECURITIES EXCHANGE",
+      "acronym": "BISX",
+      "city": "NASAU",
+      "country": "BAHAMAS",
+      "country_code": "BS",
+      "website": "WWW.BISXBAHAMAS.COM"
+    },
+    {
+      "symbol": "^XBAB",
+      "mic": "XBAB",
+      "institution_name": "BARBADOS STOCK EXCHANGE",
+      "acronym": "BSE",
+      "city": "BRIDGETOWN",
+      "country": "BARBADOS",
+      "country_code": "BB",
+      "website": "WWW.BSE.COM.BB"
+    },
+    {
+      "symbol": "^XBAH",
+      "mic": "XBAH",
+      "institution_name": "BAHRAIN BOURSE",
+      "acronym": "BSE",
+      "city": "MANAMA",
+      "country": "BAHRAIN",
+      "country_code": "BH",
+      "website": "WWW.BAHRAINBOURSE.COM.BH"
+    },
+    {
+      "symbol": "^XBAR",
+      "mic": "XBAR",
+      "institution_name": "BOLSA DE BARCELONA",
+      "acronym": "BAR",
+      "city": "BARCELONA",
+      "country": "SPAIN",
+      "country_code": "ES",
+      "website": "WWW.BORSABCN.ES"
+    },
+    {
+      "symbol": "^XBCL",
+      "mic": "XBCL",
+      "institution_name": "LA BOLSA ELECTRONICA DE CHILE",
+      "acronym": "BOLCHILE",
+      "city": "SANTIAGO",
+      "country": "CHILE",
+      "country_code": "CL",
+      "website": "WWW.BOLCHILE.CL"
+    },
+    {
+      "symbol": "^XBDA",
+      "mic": "XBDA",
+      "institution_name": "BERMUDA STOCK EXCHANGE LTD",
+      "acronym": "BSX",
+      "city": "HAMILTON",
+      "country": "BERMUDA",
+      "country_code": "BM",
+      "website": "WWW.BSX.COM"
+    },
+    {
+      "symbol": "^XBEL",
+      "mic": "XBEL",
+      "institution_name": "BELGRADE STOCK EXCHANGE",
+      "acronym": "BELEX",
+      "city": "BELGRADE",
+      "country": "SERBIA (REPUBLIC OF)",
+      "country_code": "RS",
+      "website": "WWW.BELEX.RS"
+    },
+    {
+      "symbol": "^XBER",
+      "mic": "XBER",
+      "institution_name": "BOERSE BERLIN",
+      "acronym": "BER",
+      "city": "BERLIN",
+      "country": "GERMANY",
+      "country_code": "DE",
+      "website": "WWW.BOERSE-BERLIN.DE"
+    },
+    {
+      "symbol": "^XBEY",
+      "mic": "XBEY",
+      "institution_name": "BOURSE DE BEYROUTH - BEIRUT STOCK EXCHANGE",
+      "acronym": "BEY",
+      "city": "BEIRUT",
+      "country": "LEBANON",
+      "country_code": "LB",
+      "website": "WWW.BSE.COM.LB"
+    },
+    {
+      "symbol": "^XBIL",
+      "mic": "XBIL",
+      "institution_name": "BOLSA DE VALORES DE BILBAO",
+      "acronym": "BIL",
+      "city": "BILBAO",
+      "country": "SPAIN",
+      "country_code": "ES",
+      "website": "WWW.BOLSABILBAO.ES"
+    },
+    {
+      "symbol": "^XBKK",
+      "mic": "XBKK",
+      "institution_name": "STOCK EXCHANGE OF THAILAND",
+      "acronym": "SET",
+      "city": "BANGKOK",
+      "country": "THAILAND",
+      "country_code": "TH",
+      "website": "WWW.SET.OR.TH"
+    },
+    {
+      "symbol": "^XBLB",
+      "mic": "XBLB",
+      "institution_name": "BANJA LUKA STOCK EXCHANGE",
+      "acronym": "BLB",
+      "city": "BANJA LUKA",
+      "country": "BOSNIA AND HERZEGOVINA",
+      "country_code": "BA",
+      "website": "WWW.BLBERZA.COM"
+    },
+    {
+      "symbol": "^XBNV",
+      "mic": "XBNV",
+      "institution_name": "BOLSA NACIONAL DE VALORES, S.A.",
+      "acronym": "BNV",
+      "city": "SAN JOSE",
+      "country": "COSTA RICA",
+      "country_code": "CR",
+      "website": "WWW.BOLSACR.COM"
+    },
+    {
+      "symbol": "^XBOG",
+      "mic": "XBOG",
+      "institution_name": "BOLSA DE VALORES DE COLOMBIA",
+      "acronym": "BVC",
+      "city": "BOGOTA",
+      "country": "COLOMBIA",
+      "country_code": "CO",
+      "website": "WWW.BVC.COM.CO"
+    },
+    {
+      "symbol": "^XBOL",
+      "mic": "XBOL",
+      "institution_name": "BOLSA BOLIVIANA DE VALORES S.A.",
+      "acronym": "BOL",
+      "city": "LA PAZ",
+      "country": "BOLIVIA",
+      "country_code": "BO",
+      "website": "WWW.BOLSA-VALORES-BOLIVIA.COM"
+    },
+    {
+      "symbol": "^XBOM",
+      "mic": "XBOM",
+      "institution_name": "BSE LTD",
+      "acronym": "BSE",
+      "city": "MUMBAI",
+      "country": "INDIA",
+      "country_code": "IN",
+      "website": "HTTP://WWW.BSEINDIA.COM"
+    },
+    {
+      "symbol": "^XBOS",
+      "mic": "XBOS",
+      "institution_name": "NASDAQ OMX BX",
+      "acronym": "BSE",
+      "city": "NEW YORK",
+      "country": "UNITED STATES OF AMERICA",
+      "country_code": "US",
+      "website": "WWW.NASDAQOMXTRADER.COM"
+    },
+    {
+      "symbol": "^XBOT",
+      "mic": "XBOT",
+      "institution_name": "BOTSWANA STOCK EXCHANGE",
+      "acronym": "BOT",
+      "city": "GABORONE",
+      "country": "BOTSWANA",
+      "country_code": "BW",
+      "website": "WWW.BSE.CO.BW"
+    },
+    {
+      "symbol": "^XBRA",
+      "mic": "XBRA",
+      "institution_name": "BRATISLAVA STOCK EXCHANGE",
+      "acronym": "BSSE",
+      "city": "BRATISLAVA",
+      "country": "SLOVAKIA",
+      "country_code": "SK",
+      "website": "WWW.BSSE.SK"
+    },
+    {
+      "symbol": "^XBRN",
+      "mic": "XBRN",
+      "institution_name": "BX SWISS AG",
+      "acronym": "BRN",
+      "city": "BERN",
+      "country": "SWITZERLAND",
+      "country_code": "CH",
+      "website": "WWW.BXSWISS.COM; WWW.BERNE-X.COM"
+    },
+    {
+      "symbol": "^XBRU",
+      "mic": "XBRU",
+      "institution_name": "EURONEXT - EURONEXT BRUSSELS",
+      "acronym": "BRU",
+      "city": "BRUSSELS",
+      "country": "BELGIUM",
+      "country_code": "BE",
+      "website": "HTTP://WWW.EURONEXT.COM"
+    },
+    {
+      "symbol": "^XBRV",
+      "mic": "XBRV",
+      "institution_name": "BOURSE REGIONALE DES VALEURS MOBILIERES",
+      "acronym": "BRVM",
+      "city": "ABIDJAN",
+      "country": "IVORY COAST",
+      "country_code": "CI",
+      "website": "WWW.BRVM.ORG"
+    },
+    {
+      "symbol": "^XBSE",
+      "mic": "XBSE",
+      "institution_name": "SPOT REGULATED MARKET - BVB",
+      "acronym": "REGS",
+      "city": "BUCHAREST",
+      "country": "ROMANIA",
+      "country_code": "RO",
+      "website": "WWW.BVB.RO"
+    },
+    {
+      "symbol": "^XBUD",
+      "mic": "XBUD",
+      "institution_name": "BUDAPEST STOCK EXCHANGE",
+      "acronym": "BUD",
+      "city": "BUDAPEST",
+      "country": "HUNGARY",
+      "country_code": "HU",
+      "website": "WWW.BET.HU"
+    },
+    {
+      "symbol": "^XBUE",
+      "mic": "XBUE",
+      "institution_name": "BOLSA DE COMERCIO DE BUENOS AIRES",
+      "acronym": "BCBA",
+      "city": "BUENOS AIRES",
+      "country": "ARGENTINA",
+      "country_code": "AR",
+      "website": "WWW.BCBA.SBA.COM.AR"
+    },
+    {
+      "symbol": "^XBUL",
+      "mic": "XBUL",
+      "institution_name": "BULGARIAN STOCK EXCHANGE",
+      "acronym": "BUL",
+      "city": "SOFIA",
+      "country": "BULGARIA",
+      "country_code": "BG",
+      "website": "WWW.BSE-SOFIA.BG"
+    },
+    {
+      "symbol": "^XBVC",
+      "mic": "XBVC",
+      "institution_name": "CAPE VERDE STOCK EXCHANGE",
+      "acronym": "BVC",
+      "city": "PRAIA",
+      "country": "CAPE VERDE",
+      "country_code": "CV",
+      "website": "WWW.BVC.CV"
+    },
+    {
+      "symbol": "^XBVR",
+      "mic": "XBVR",
+      "institution_name": "BOLSA DE VALORES DE LA REPUBLICA DOMINICANA SA.",
+      "acronym": "BVRD",
+      "city": "SANTO DOMINGO",
+      "country": "DOMINICAN REPUBLIC",
+      "country_code": "DO",
+      "website": "WWW.BOLSARD.COM"
+    },
+    {
+      "symbol": "^XCAI",
+      "mic": "XCAI",
+      "institution_name": "EGYPTIAN EXCHANGE",
+      "acronym": "CASE",
+      "city": "CAIRO",
+      "country": "EGYPT",
+      "country_code": "EG",
+      "website": "WWW.EGYPTSE.COM"
+    },
+    {
+      "symbol": "^XCAS",
+      "mic": "XCAS",
+      "institution_name": "CASABLANCA STOCK EXCHANGE",
+      "acronym": "CAS",
+      "city": "CASABLANCA",
+      "country": "MOROCCO",
+      "country_code": "MA",
+      "website": "WWW.CASABLANCA-BOURSE.COM"
+    },
+    {
+      "symbol": "^XCAY",
+      "mic": "XCAY",
+      "institution_name": "CAYMAN ISLANDS STOCK EXCHANGE",
+      "acronym": "CAY",
+      "city": "GEORGETOWN",
+      "country": "CAYMAN ISLANDS",
+      "country_code": "KY",
+      "website": "WWW.CSX.COM.KY"
+    },
+    {
+      "symbol": "^XCHG",
+      "mic": "XCHG",
+      "institution_name": "CHITTAGONG STOCK EXCHANGE LTD.",
+      "acronym": "CSE",
+      "city": "CHITTAGONG",
+      "country": "BANGLADESH",
+      "country_code": "BD",
+      "website": "WWW.CSEBD.COM"
+    },
+    {
+      "symbol": "^XCHI",
+      "mic": "XCHI",
+      "institution_name": "CHICAGO STOCK EXCHANGE, INC",
+      "acronym": "CHX",
+      "city": "CHICAGO",
+      "country": "UNITED STATES OF AMERICA",
+      "country_code": "US",
+      "website": "WWW.CHX.COM"
+    },
+    {
+      "symbol": "^XCIE",
+      "mic": "XCIE",
+      "institution_name": "THE INTERNATIONAL STOCK EXCHANGE",
+      "acronym": "TISE",
+      "city": "ST.  PETER PORT",
+      "country": "GUERNSEY, C.I.",
+      "country_code": "GG",
+      "website": "WWW.TISEGROUP.COM"
+    },
+    {
+      "symbol": "^XCIS",
+      "mic": "XCIS",
+      "institution_name": "NATIONAL STOCK EXCHANGE, INC.",
+      "acronym": "NSX",
+      "city": "JERSEY CITY",
+      "country": "UNITED STATES OF AMERICA",
+      "country_code": "US",
+      "website": "WWW.NSX.COM"
+    },
+    {
+      "symbol": "^XCNQ",
+      "mic": "XCNQ",
+      "institution_name": "CANADIAN NATIONAL STOCK EXCHANGE",
+      "acronym": "CNSX",
+      "city": "TORONTO",
+      "country": "CANADA",
+      "country_code": "CA",
+      "website": "WWW.CNSX.CA"
+    },
+    {
+      "symbol": "^XCOL",
+      "mic": "XCOL",
+      "institution_name": "COLOMBO STOCK EXCHANGE",
+      "acronym": "COL",
+      "city": "COLOMBO",
+      "country": "SRI LANKA",
+      "country_code": "LK",
+      "website": "WWW.CSE.LK"
+    },
+    {
+      "symbol": "^XCSE",
+      "mic": "XCSE",
+      "institution_name": "NASDAQ COPENHAGEN A/S",
+      "acronym": "COP",
+      "city": "COPENHAGEN",
+      "country": "DENMARK",
+      "country_code": "DK",
+      "website": "HTTP://WWW.NASDAQOMXNORDIC.COM"
+    },
+    {
+      "symbol": "^XCSX",
+      "mic": "XCSX",
+      "institution_name": "CAMBODIA SECURITIES EXCHANGE",
+      "acronym": "CSX",
+      "city": "PHNOM PENH",
+      "country": "CAMBODIA",
+      "country_code": "KH",
+      "website": "WWW.CSX.COM.KH"
+    },
+    {
+      "symbol": "^XCYS",
+      "mic": "XCYS",
+      "institution_name": "CYPRUS STOCK EXCHANGE",
+      "acronym": "CSE",
+      "city": "NICOSIA (LEFKOSIA)",
+      "country": "CYPRUS",
+      "country_code": "CY",
+      "website": "WWW.CSE.COM.CY"
+    },
+    {
+      "symbol": "^XDAR",
+      "mic": "XDAR",
+      "institution_name": "DAR ES  SALAAM STOCK EXCHANGE",
+      "acronym": "DAR",
+      "city": "DAR ES SALAAM",
+      "country": "TANZANIA",
+      "country_code": "TZ",
+      "website": "WWW.DARSTOCKEXCHANGE.COM"
+    },
+    {
+      "symbol": "^XDFM",
+      "mic": "XDFM",
+      "institution_name": "DUBAI FINANCIAL MARKET",
+      "acronym": "DFM",
+      "city": "DUBAI",
+      "country": "UNITED ARAB EMIRATES",
+      "country_code": "AE",
+      "website": "WWW.DFM.CO.AE"
+    },
+    {
+      "symbol": "^XDHA",
+      "mic": "XDHA",
+      "institution_name": "DHAKA STOCK EXCHANGE LTD",
+      "acronym": "DSE",
+      "city": "DHAKA",
+      "country": "BANGLADESH",
+      "country_code": "BD",
+      "website": "WWW.DSEBD.ORG"
+    },
+    {
+      "symbol": "^XDSE",
+      "mic": "XDSE",
+      "institution_name": "DAMASCUS SECURITIES EXCHANGE",
+      "acronym": "DSE",
+      "city": "DAMASCUS",
+      "country": "SYRIAN ARAB REPUBLIC",
+      "country_code": "SY",
+      "website": "WWW.DSE.SY"
+    },
+    {
+      "symbol": "^XDSX",
+      "mic": "XDSX",
+      "institution_name": "DOUALA STOCK EXCHANGE",
+      "acronym": "DSX",
+      "city": "DOUALA",
+      "country": "CAMEROON",
+      "country_code": "CM",
+      "website": "WWW.DOUALA-STOCK-EXCHANGE.COM"
+    },
+    {
+      "symbol": "^XDUB",
+      "mic": "XDUB",
+      "institution_name": "IRISH STOCK EXCHANGE - ALL MARKET",
+      "acronym": "ISE",
+      "city": "DUBLIN",
+      "country": "IRELAND",
+      "country_code": "IE",
+      "website": "WWW.ISE.IE"
+    },
+    {
+      "symbol": "^XDUS",
+      "mic": "XDUS",
+      "institution_name": "BOERSE DUESSELDORF",
+      "acronym": "DUS",
+      "city": "DUESSELDORF",
+      "country": "GERMANY",
+      "country_code": "DE",
+      "website": "WWW.BOERSE-DUESSELDORF.DE"
+    },
+    {
+      "symbol": "^XECS",
+      "mic": "XECS",
+      "institution_name": "EASTERN CARIBBEAN SECURITIES EXCHANGE",
+      "acronym": "ECSE",
+      "city": "BASSETERRE",
+      "country": "SAINT KITTS AND NEVIS",
+      "country_code": "KN",
+      "website": "WWW.ECSEONLINE.COM"
+    },
+    {
+      "symbol": "^XETR",
+      "mic": "XETR",
+      "institution_name": "XETRA",
+      "acronym": "XETRA",
+      "city": "FRANKFURT",
+      "country": "GERMANY",
+      "country_code": "DE",
+      "website": "WWW.DEUTSCHE-BOERSE.COM"
+    },
+    {
+      "symbol": "^XFRA",
+      "mic": "XFRA",
+      "institution_name": "DEUTSCHE BOERSE AG",
+      "acronym": "FRA",
+      "city": "FRANKFURT",
+      "country": "GERMANY",
+      "country_code": "DE",
+      "website": "HTTP://WWW.DEUTSCHE-BOERSE.COM"
+    },
+    {
+      "symbol": "^XGHA",
+      "mic": "XGHA",
+      "institution_name": "GHANA STOCK EXCHANGE",
+      "acronym": "GHA",
+      "city": "ACCRA",
+      "country": "GHANA",
+      "country_code": "GH",
+      "website": "WWW.GSE.COM.GH"
+    },
+    {
+      "symbol": "^XGSE",
+      "mic": "XGSE",
+      "institution_name": "GEORGIA STOCK EXCHANGE",
+      "acronym": "GSE",
+      "city": "TBILISI",
+      "country": "GEORGIA",
+      "country_code": "GE",
+      "website": "WWW.GSE.GE"
+    },
+    {
+      "symbol": "^XGTG",
+      "mic": "XGTG",
+      "institution_name": "BOLSA DE VALORES NACIONAL SA",
+      "acronym": "GTG",
+      "city": "GUATEMALA",
+      "country": "GUATEMALA",
+      "country_code": "GT",
+      "website": "WWW.BVNSA.COM.GT"
+    },
+    {
+      "symbol": "^XGUA",
+      "mic": "XGUA",
+      "institution_name": "BOLSA DE VALORES DE GUAYAQUIL",
+      "acronym": "GUA",
+      "city": "GUAYAQUIL",
+      "country": "ECUADOR",
+      "country_code": "EC",
+      "website": "WWW.MUNDOBVG.COM"
+    },
+    {
+      "symbol": "^XHAM",
+      "mic": "XHAM",
+      "institution_name": "HANSEATISCHE WERTPAPIERBOERSE HAMBURG",
+      "acronym": "HAM",
+      "city": "HAMBURG",
+      "country": "GERMANY",
+      "country_code": "DE",
+      "website": "WWW.BOERSENAG.DE"
+    },
+    {
+      "symbol": "^XHAN",
+      "mic": "XHAN",
+      "institution_name": "NIEDERSAECHSISCHE BOERSE ZU HANNOVER",
+      "acronym": "HAN",
+      "city": "HANNOVER",
+      "country": "GERMANY",
+      "country_code": "DE",
+      "website": "WWW.BOERSENAG.DE"
+    },
+    {
+      "symbol": "^XHEL",
+      "mic": "XHEL",
+      "institution_name": "NASDAQ HELSINKI LTD",
+      "acronym": "HEL",
+      "city": "HELSINKI",
+      "country": "FINLAND",
+      "country_code": "FI",
+      "website": "WWW.NASDAQOMXNORDIC.COM"
+    },
+    {
+      "symbol": "^XHKG",
+      "mic": "XHKG",
+      "institution_name": "HONG KONG EXCHANGES AND CLEARING LTD",
+      "acronym": "HKEX",
+      "city": "HONG KONG",
+      "country": "HONG KONG",
+      "country_code": "HK",
+      "website": "HTTP://WWW.HKEX.COM.HK"
+    },
+    {
+      "symbol": "^XICE",
+      "mic": "XICE",
+      "institution_name": "NASDAQ ICELAND HF.",
+      "acronym": "ICEX",
+      "city": "REYKJAVIK",
+      "country": "ICELAND",
+      "country_code": "IS",
+      "website": "WWW.NASDAQOMXNORDIC.COM"
+    },
+    {
+      "symbol": "^XIDX",
+      "mic": "XIDX",
+      "institution_name": "INDONESIA STOCK EXCHANGE",
+      "acronym": "IDX",
+      "city": "JAKARTA",
+      "country": "INDONESIA",
+      "country_code": "ID",
+      "website": "WWW.IDX.CO.ID"
+    },
+    {
+      "symbol": "^XIQS",
+      "mic": "XIQS",
+      "institution_name": "IRAQ STOCK EXCHANGE",
+      "acronym": "ISX",
+      "city": "BAGHDAD",
+      "country": "IRAQ",
+      "country_code": "IQ",
+      "website": "WWW.ISX-IQ.NET"
+    },
+    {
+      "symbol": "^XIST",
+      "mic": "XIST",
+      "institution_name": "BORSA ISTANBUL",
+      "acronym": "IST",
+      "city": "ISTANBUL",
+      "country": "TURKEY",
+      "country_code": "TR",
+      "website": "WWW.BORSAISTANBUL.COM"
+    },
+    {
+      "symbol": "^XJAM",
+      "mic": "XJAM",
+      "institution_name": "JAMAICA STOCK EXCHANGE",
+      "acronym": "JAM",
+      "city": "KINGSTON",
+      "country": "JAMAICA",
+      "country_code": "JM",
+      "website": "WWW.JAMSTOCKEX.COM"
+    },
+    {
+      "symbol": "^XJAS",
+      "mic": "XJAS",
+      "institution_name": "TOKYO STOCK EXCHANGE JASDAQ",
+      "acronym": "JASDAQ",
+      "city": "TOKYO",
+      "country": "JAPAN",
+      "country_code": "JP",
+      "website": "WWW.JPX.CO.JP"
+    },
+    {
+      "symbol": "^XJPX",
+      "mic": "XJPX",
+      "institution_name": "JAPAN EXCHANGE GROUP",
+      "acronym": "JPX",
+      "city": "TOKYO",
+      "country": "JAPAN",
+      "country_code": "JP",
+      "website": "HTTP://WWW.JPX.CO.JP"
+    },
+    {
+      "symbol": "^XJSE",
+      "mic": "XJSE",
+      "institution_name": "JOHANNESBURG STOCK EXCHANGE",
+      "acronym": "JSE",
+      "city": "JOHANNESBURG",
+      "country": "SOUTH AFRICA",
+      "country_code": "ZA",
+      "website": "WWW.JSE.CO.ZA"
+    },
+    {
+      "symbol": "^XKAR",
+      "mic": "XKAR",
+      "institution_name": "THE PAKISTAN STOCK EXCHANGE LIMITED",
+      "acronym": "PSX",
+      "city": "KARACHI",
+      "country": "PAKISTAN",
+      "country_code": "PK",
+      "website": "WWW.PSX.COM.PK"
+    },
+    {
+      "symbol": "^XKAZ",
+      "mic": "XKAZ",
+      "institution_name": "KAZAKHSTAN STOCK EXCHANGE",
+      "acronym": "KAZE",
+      "city": "ALMA-ATA",
+      "country": "KAZAKHSTAN",
+      "country_code": "KZ",
+      "website": "WWW.KASE.KZ"
+    }
+  ],
+  "result_count": 187,
+  "page_size": 100,
+  "current_page": 1,
+  "total_pages": 2,
+  "api_call_credits": 1
+}
