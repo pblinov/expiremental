@@ -1,0 +1,21 @@
+{
+  "ticker": "MSFT",
+  "figi_ticker": "MSFT:UW",
+  "figi": "BBG000BPHFS9",
+  "composite_figi": "BBG000BPH459",
+  "composite_figi_ticker": "MSFT:US",
+  "security_name": "MICROSOFT CORP",
+  "market_sector": "Equity",
+  "security_type": "Common Stock",
+  "stock_exchange": "NASDAQ",
+  "last_crsp_adj_date": "2017-08-15",
+  "figi_uniqueid": "EQ0010174300001000",
+  "share_class_figi": "BBG001S5TD05",
+  "figi_exch_cntry": "UW",
+  "currency": "USD",
+  "mic": "XNAS",
+  "exch_symbol": "^XNAS",
+  "etf": false,
+  "delisted_security": false,
+  "primary_listing": true
+}
