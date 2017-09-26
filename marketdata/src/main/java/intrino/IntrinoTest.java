@@ -29,18 +29,18 @@ import java.util.List;
 public class IntrinoTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(IntrinoTest.class);
 
-    private static final String USERNMAE = "*";
-    private static final String PASSWORD = "*";
+    private static final String USERNMAE = "abcc520a0b4f148abc8e819752c7a7cb";
+    private static final String PASSWORD = "03526a141ca046fbd779c8880120e1d6";
     private static final String HOST = "api.intrinio.com";
-    private static final String SECURITIES_URL = "https://" + HOST + "/securities";
-    private static final String EXCHANGES_URL = "https://" + HOST + "/stock_exchanges?page_size=200";
+    private static final String SECURITIES_URL = "https://" + HOST + "/securities?exch_symbol=%5EXNAS";
+    private static final String EXCHANGES_URL = "https://" + HOST + "/stock_exchanges";
 
     public static void main(String[] args) throws Exception {
         LOGGER.info("Start");
 
         CloseableHttpClient client = HttpClients.createDefault();
         HttpClientContext context = HttpClientContext.create();
-        HttpGet request = new HttpGet(EXCHANGES_URL);
+        HttpGet request = new HttpGet(SECURITIES_URL);
         //https://api.intrinio.com/stock_exchanges
         UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(USERNMAE, PASSWORD);
         CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
