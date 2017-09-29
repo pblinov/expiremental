@@ -8,6 +8,8 @@ import org.zeromq.ZMQ;
 import java.util.HashMap;
 import java.util.Map;
 
+import static zmq.TestZmqPub.HWM_SIZE;
+
 /**
  * @author pblinov
  * @since 27/09/2017
@@ -20,11 +22,13 @@ public class TestZmqProxy {
         ZMQ.Context ctx = ZMQ.context(1);
 
         ZMQ.Socket publisher = ctx.socket(ZMQ.XPUB);
+        publisher.setHWM(HWM_SIZE);
         publisher.bind("tcp://*:8888");
         publisher.setXpubVerbose(true);
         LOGGER.info("Bind");
 
         ZMQ.Socket subscriber = ctx.socket(ZMQ.SUB);
+        subscriber.setHWM(HWM_SIZE);
         subscriber.connect("tcp://localhost:7777");
         LOGGER.info("Connect");
 
@@ -37,7 +41,7 @@ public class TestZmqProxy {
         int subIdx = poller.register(subscriber, ZMQ.Poller.POLLIN);
 
         while (true) {
-            if (poller.poll(10) == -1) {
+            if (poller.poll(5) == -1) {
                 LOGGER.error("Cannot poll");
                 return;
             }
