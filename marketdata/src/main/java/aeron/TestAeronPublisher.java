@@ -1,15 +1,9 @@
 package aeron;
 
-import org.agrona.BufferUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import uk.co.real_logic.aeron.Aeron;
-import uk.co.real_logic.aeron.Publication;
-import uk.co.real_logic.aeron.driver.MediaDriver;
-import uk.co.real_logic.agrona.concurrent.UnsafeBuffer;
 import zmq.TestZmqPub;
 
-import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
 /**
@@ -26,15 +20,9 @@ public class TestAeronPublisher {
         AeronPublisherTransport transport = new AeronPublisherTransport(CHANNEL, STREAM);
         transport.start();
 
-            IntStream.range(1, 1_000_000).forEach(i -> {
-                transport.send(TestZmqPub.generateQuote(i));
-
-//                try {
-//                    Thread.sleep(TimeUnit.SECONDS.toMillis(1));
-//                } catch (InterruptedException e) {
-//                    LOGGER.error("Cannot sleep", e);
-//                }
-            });
+        IntStream.range(1, 5_000_000).forEach(i -> {
+            transport.send(TestZmqPub.generateQuote(i));
+        });
 
         Thread.sleep(600000L);
 

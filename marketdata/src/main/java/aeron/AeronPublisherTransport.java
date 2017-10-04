@@ -11,8 +11,7 @@ import uk.co.real_logic.aeron.Publication;
 import uk.co.real_logic.aeron.driver.MediaDriver;
 import uk.co.real_logic.agrona.concurrent.UnsafeBuffer;
 
-import java.util.concurrent.TimeUnit;
-import java.util.stream.IntStream;
+import static uk.co.real_logic.aeron.Publication.*;
 
 /**
  * @author pblinov
@@ -42,15 +41,32 @@ public class AeronPublisherTransport implements PublisherTransport {
     public void send(Quote quote) {
         byte[] message = quoteSerializer.serialize(quote);
         BUFFER.putBytes(0, message);
-        final long result = publication.offer(BUFFER, 0, message.length);
+        long result = 0;
+        do {
+            result = publication.offer(BUFFER, 0, message.length);
+        } while (result == BACK_PRESSURED);
+
         if (result < 0) {
-            LOGGER.error("Cannot send: {}", result);
+            LOGGER.error("Cannot send: {}", format(result));
         }
 
         if (!publication.isConnected())
         {
             LOGGER.warn("No active subscribers detected");
         }
+    }
+
+    private String format(long result) {
+        if (result == NOT_CONNECTED) {
+            return "not connected";
+        } else if (result == BACK_PRESSURED) {
+            return "back pressured";
+        } else if (result == ADMIN_ACTION) {
+            return "admin action";
+        } else if (result == CLOSED) {
+            return "closed";
+        }
+        return "unknown";
     }
 
     public void start() {
