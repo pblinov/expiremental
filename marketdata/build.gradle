@@ -24,5 +24,7 @@ dependencies {
     compile 'com.lmax:disruptor:3.3.6'
 
     compile "uk.co.real-logic:aeron-all:0.9.4"
-    compile "org.agrona:agrona:0.9.7"
+    compile "org.agrona:agrona:0.9.4"
+
+    compile group: 'com.esotericsoftware.kryo', name: 'kryo', version: '2.16'
 }

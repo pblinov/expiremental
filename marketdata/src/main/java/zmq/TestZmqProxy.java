@@ -34,7 +34,7 @@ public class TestZmqProxy {
 
         subscriber.subscribe(ALL);
 
-        Map<String, String> cache = new HashMap<>();
+        Map<String, byte[]> cache = new HashMap<>();
 
         ZMQ.Poller poller = ctx.poller();
         int pubIdx = poller.register(publisher, ZMQ.Poller.POLLIN);
@@ -49,7 +49,7 @@ public class TestZmqProxy {
             ZMQ.PollItem subItem = poller.getItem(subIdx);
             if (subItem.isReadable()) {
                 String topic = subscriber.recvStr();
-                String message = subscriber.recvStr();
+                byte[] message = subscriber.recv();
                 if (topic == null) {
                     LOGGER.error("Topic is unknown");
                     return;
@@ -78,7 +78,7 @@ public class TestZmqProxy {
                             publisher.send(m);
                         });
                     } else {
-                        String m = cache.get(topic);
+                        byte[] m = cache.get(topic);
                         if (m != null) {
                             publisher.sendMore(topic);
                             publisher.send(m);

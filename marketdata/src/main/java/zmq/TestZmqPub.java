@@ -1,9 +1,10 @@
 package zmq;
 
+import marketdata.transport.Quote;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.zeromq.ZMQ;
 
+import java.math.BigDecimal;
 import java.util.stream.IntStream;
 
 
@@ -18,29 +19,26 @@ public class TestZmqPub {
     public static final int HWM_SIZE = 10_000_000;
 
     public static void main(String[] args) throws InterruptedException {
-        ZMQ.Context ctx = ZMQ.context(1);
-
-        ZMQ.Socket publisher = ctx.socket(ZMQ.PUB);
-        publisher.setHWM(HWM_SIZE);
-        publisher.bind("tcp://*:7777");
-        LOGGER.info("Bind");
-
+        ZmqPublisherTransport transport = new ZmqPublisherTransport("tcp://*:7777", HWM_SIZE);
+        transport.start();
         Thread.sleep(1_000);
 
         final long start = System.currentTimeMillis();
-        IntStream.range(1, 5_000_000).mapToObj(Integer::toString).forEach(i -> {
-            publisher.sendMore(TOPIC_NAME);
-            publisher.send("" + System.currentTimeMillis());
-            publisher.sendMore("B");
-            publisher.send("" + System.currentTimeMillis());
-//            try {
-//                Thread.sleep(2L);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
+        IntStream.range(1, 5_000_000).forEach(i -> {
+            transport.send(generateQuote(i));
         });
         LOGGER.info("Duration: {}", System.currentTimeMillis() - start);
 
         Thread.sleep(60_000);
+    }
+
+    public static Quote generateQuote(long size) {
+        Quote quote = new Quote();
+        quote.setSymbol("AAPL");
+        quote.setExchange("NYSE");
+        quote.setPrice(new BigDecimal("10.0"));
+        quote.setSize(size);
+        quote.setTimestamp(System.currentTimeMillis());
+        return quote;
     }
 }
