@@ -13,9 +13,6 @@ import uk.co.real_logic.agrona.concurrent.SigInt;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static aeron.TestAeronPublisher.CHANNEL;
-import static aeron.TestAeronPublisher.STREAM;
-
 /**
  * @author pblinov
  * @since 04/10/2017

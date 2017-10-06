@@ -27,4 +27,7 @@ dependencies {
     compile "org.agrona:agrona:0.9.4"
 
     compile group: 'com.esotericsoftware.kryo', name: 'kryo', version: '2.16'
+
+    compile group: 'org.apache.commons', name: 'commons-csv', version: '1.5'
+
 }
