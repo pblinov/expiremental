@@ -1,0 +1,17 @@
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    xchangeVersion = '4.3.10'
+    slf4jVersion = '1.7.25'
+}
+
+dependencies {
+    compile "org.slf4j:slf4j-api:$slf4jVersion"
+    compile "org.slf4j:slf4j-simple:$slf4jVersion"
+    compile "org.knowm.xchange:xchange-binance:$xchangeVersion"
+}
+
