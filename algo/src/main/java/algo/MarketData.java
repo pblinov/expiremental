@@ -2,6 +2,7 @@ package algo;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
+import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Wallet;
@@ -12,12 +13,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.stream.Stream;
 
-public class MarketData {
+public abstract class MarketData {
     private static final Logger LOGGER = LoggerFactory.getLogger(MarketData.class);
-    private static final String BTC = "BTC";
-    private static final String USDT = "USDT";
+    public static final String BTC = "BTC";
+    public static final String ETH = "ETH";
+    public static final String USD = "USD";
     private static final double FEE = 0.075 / 100;
     private static final double LIMIT = 0.04;
 
@@ -26,24 +29,27 @@ public class MarketData {
     private final ConverterService converterService;
     private double totalFee = 0.0;
 
-    public static void main(String[] args) throws IOException {
-        MarketData application = new MarketData(args[0], args[1]);
-        application.run();
-    }
-
     public MarketData(String apiKey, String secretKey) throws IOException {
-        Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BinanceExchange.class.getName(),apiKey, secretKey);
+        Exchange exchange = createExchange(apiKey, secretKey);
         MarketDataService marketDataService = exchange.getMarketDataService();
         AccountService accountService = exchange.getAccountService();
         AccountInfo accountInfo = accountService.getAccountInfo();
-        Wallet wallet = accountInfo.getWallet();
+        Collection<Wallet> wallets = accountInfo.getWallets().values();
         ExchangeMetaData metaData = exchange.getExchangeMetaData();
-        balances = new BalanceCache(wallet);
+        balances = new BalanceCache(wallets, getSymbolConverter());
         portfolio = new Portfolio();
-        converterService = new ConverterService(marketDataService, metaData, portfolio.currencies());
+        converterService = new ConverterService(marketDataService, metaData, portfolio.currencies(), getSymbolConverter());
     }
 
-    private void run() throws IOException {
+    private Exchange createExchange(String apiKey, String secretKey) {
+        ExchangeSpecification specification = createSpecification(apiKey, secretKey);
+        return ExchangeFactory.INSTANCE.createExchange(specification);
+    }
+
+    protected abstract ExchangeSpecification createSpecification(String apiKey, String secretKey);
+    protected abstract SymbolConverter getSymbolConverter();
+
+    public void run() throws IOException {
         LOGGER.info("Start");
 
         double total = portfolio.currencies().stream().mapToDouble(this::normalizedQty).sum();
@@ -52,7 +58,7 @@ public class MarketData {
         final Balance btcBalance = balances.get(BTC);
 
         portfolio.currencies().stream()
-                .filter(c -> !c.equals(USDT))
+                .filter(c -> !c.equals(USD))
                 .filter(c -> !c.equals(BTC))
                 .forEach(currency -> {
                     final double currentInBTC = round(normalizedQty(currency));
@@ -72,14 +78,14 @@ public class MarketData {
                     }
                 });
 
-        Stream.of(USDT).forEach(currency -> {
+        Stream.of(USD).forEach(currency -> {
             final double currentInBTC = round(normalizedQty(currency));
             final double expectedInBTC = round(total * portfolio.get(currency));
             final double ratio = (expectedInBTC - currentInBTC) / currentInBTC;
             final Balance balance = balances.get(currency);
             balance.setExpected(balance.getCurrent() * (1 + ratio));
             if (Math.abs(ratio) > LIMIT) {
-                final Converter converter = converterService.get(BTC, USDT);
+                final Converter converter = converterService.get(BTC, USD);
                 final double baseQty = converter.round(-converter.reverse().convert(balance.getCurrent() * ratio));
                 final double quoteQty = converter.convert(baseQty);
                 balance.add(-quoteQty);
@@ -94,7 +100,7 @@ public class MarketData {
                 .sorted(String::compareTo)
                 .forEach(currency -> LOGGER.info("{}", balances.get(currency)));
 
-        LOGGER.info("{}", String.format("Total fee: %.8f BTC %.4f USD", totalFee, converterService.get(BTC, USDT).convert(totalFee)));
+        LOGGER.info("{}", String.format("Total fee: %.8f BTC %.4f USD", totalFee, converterService.get(BTC, USD).convert(totalFee)));
 
         LOGGER.info("Stop");
     }

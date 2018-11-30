@@ -21,11 +21,13 @@ public class PriceCache {
     private final MarketDataService marketDataService;
     private final ExchangeMetaData metaData;
     private final String balanceCurrency;
+    private final SymbolConverter symbolConverter;
 
-    public PriceCache(MarketDataService marketDataService, ExchangeMetaData metaData, String balanceCurrency) {
+    public PriceCache(MarketDataService marketDataService, ExchangeMetaData metaData, String balanceCurrency, SymbolConverter symbolConverter) {
         this.marketDataService = marketDataService;
         this.metaData = metaData;
         this.balanceCurrency = balanceCurrency;
+        this.symbolConverter = symbolConverter;
     }
 
     public BigDecimal get(String currency) {
@@ -33,25 +35,27 @@ public class PriceCache {
     }
 
     private BigDecimal request(String currency) {
+        final String encodedCurrency = symbolConverter.encode(currency);
+        final String balanceCurrency = symbolConverter.encode(this.balanceCurrency);
         try {
-            if (metaData.getCurrencyPairs().containsKey(new CurrencyPair(currency, balanceCurrency))) {
-                LOGGER.info("{} minQty: {}", currency, metaData.getCurrencyPairs().get(new CurrencyPair(currency, balanceCurrency)).getMinimumAmount());
-                Ticker ticker = marketDataService.getTicker(new CurrencyPair(currency, balanceCurrency));
+            if (metaData.getCurrencyPairs().containsKey(new CurrencyPair(encodedCurrency, balanceCurrency))) {
+                LOGGER.info("{} minQty: {}", encodedCurrency, metaData.getCurrencyPairs().get(new CurrencyPair(encodedCurrency, balanceCurrency)).getMinimumAmount());
+                Ticker ticker = marketDataService.getTicker(new CurrencyPair(encodedCurrency, balanceCurrency));
                 return ticker.getAsk();
-            } else if (metaData.getCurrencyPairs().containsKey(new CurrencyPair(balanceCurrency, currency))) {
-                Ticker ticker = marketDataService.getTicker(new CurrencyPair(balanceCurrency, currency));
+            } else if (metaData.getCurrencyPairs().containsKey(new CurrencyPair(balanceCurrency, encodedCurrency))) {
+                Ticker ticker = marketDataService.getTicker(new CurrencyPair(balanceCurrency, encodedCurrency));
                 return BigDecimal.ONE.divide(ticker.getAsk(), MathContext.DECIMAL32);
-            } else if (currency.equals(balanceCurrency)) {
+            } else if (encodedCurrency.equals(balanceCurrency)) {
                 return BigDecimal.ONE;
-            } else if (balanceCurrency.equals("USDT")) {
-                Ticker tickerBTC = marketDataService.getTicker(new CurrencyPair(currency, "BTC"));
-                Ticker tickerBTCUSD = marketDataService.getTicker(new CurrencyPair("BTC", "USDT"));
+            } else if (balanceCurrency.equals(symbolConverter.encode("USD"))) {
+                Ticker tickerBTC = marketDataService.getTicker(new CurrencyPair(encodedCurrency, symbolConverter.encode("BTC")));
+                Ticker tickerBTCUSD = marketDataService.getTicker(new CurrencyPair(symbolConverter.encode("BTC"), symbolConverter.encode("USD")));
                 return tickerBTC.getAsk().multiply(tickerBTCUSD.getAsk());
             } else {
                 return BigDecimal.ZERO;
             }
         } catch (IOException e) {
-            LOGGER.error("Cannot find price of {}", currency);
+            LOGGER.error("Cannot find price of {}", encodedCurrency);
             return BigDecimal.ZERO;
         }
     }

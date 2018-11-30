@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Supplier;
 
 public class ConverterService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ConverterService.class);
@@ -22,19 +21,24 @@ public class ConverterService {
 
     public ConverterService(MarketDataService marketDataService,
                             ExchangeMetaData metaData,
-                            Collection<String> currencies) throws IOException {
+                            Collection<String> currencies,
+                            SymbolConverter symbolConverter) throws IOException {
         for (String base : currencies) {
             for (String quote : currencies) {
-                final CurrencyPair pair = new CurrencyPair(base, quote);
-                CurrencyPairMetaData data = metaData.getCurrencyPairs().get(pair);
+                final CurrencyPair pair = new CurrencyPair(symbolConverter.encode(base), symbolConverter.encode(quote));
+                final CurrencyPairMetaData data = metaData.getCurrencyPairs().get(pair);
                 if (data != null) {
-                    final Ticker ticker = marketDataService.getTicker(pair);
-                    final Converter converter = new Converter(base, quote,
-                            data.getMinimumAmount().doubleValue(),
-                            ticker.getBid().doubleValue(),
-                            ticker.getAsk().doubleValue());
-                    converters.add(converter);
-                    LOGGER.info("{}", converter);
+                    try {
+                        final Ticker ticker = marketDataService.getTicker(pair);
+                        final Converter converter = new Converter(base, quote,
+                                data.getMinimumAmount().doubleValue(),
+                                ticker.getBid().doubleValue(),
+                                ticker.getAsk().doubleValue());
+                        converters.add(converter);
+                        LOGGER.info("{}", converter);
+                    } catch (IOException e) {
+                        LOGGER.error("Cannot load ticker {}", pair);
+                    }
                 }
             }
         }

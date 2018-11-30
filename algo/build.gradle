@@ -5,7 +5,7 @@ repositories {
 }
 
 ext {
-    xchangeVersion = '4.3.10'
+    xchangeVersion = '4.3.12'
     slf4jVersion = '1.7.25'
 }
 
@@ -13,5 +13,7 @@ dependencies {
     compile "org.slf4j:slf4j-api:$slf4jVersion"
     compile "org.slf4j:slf4j-simple:$slf4jVersion"
     compile "org.knowm.xchange:xchange-binance:$xchangeVersion"
+    compile "org.knowm.xchange:xchange-exmo:$xchangeVersion"
+    compile "org.knowm.xchange:xchange-hitbtc:$xchangeVersion"
 }
 
