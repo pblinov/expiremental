@@ -24,6 +24,11 @@ public class HitbtcMarketData extends MarketData implements SymbolConverter {
     }
 
     @Override
+    protected String getName() {
+        return "HitBTC";
+    }
+
+    @Override
     public String encode(String currency) {
         switch (currency) {
             case "USD":

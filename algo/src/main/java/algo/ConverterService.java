@@ -36,7 +36,7 @@ public class ConverterService {
                                     ticker.getBid().doubleValue(),
                                     ticker.getAsk().doubleValue());
                             converters.add(converter);
-                            LOGGER.info("{}", converter);
+                            LOGGER.debug("{}", converter);
                         } catch (IOException e) {
                             LOGGER.error("Cannot load ticker {}", pair);
                         }
@@ -61,7 +61,15 @@ public class ConverterService {
             return converter1.get().reverse();
         }
 
-        throw new IllegalStateException(String.format("Cannot convert %s to %s", base, quote));
+        return new Converter(base, quote, 0, 0, 0) {
+            @Override
+            public double convert(double qty) {
+                if (qty == 0) {
+                    return 0;
+                }
+                throw new IllegalStateException(String.format("Cannot convert %s to %s", base, quote));
+            }
+        };
     }
 
     private Optional<Converter> find(String base, String quote) {

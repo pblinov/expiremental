@@ -26,6 +26,11 @@ public class ExmoMarketData extends MarketData implements SymbolConverter {
     }
 
     @Override
+    protected String getName() {
+        return "EXMO";
+    }
+
+    @Override
     public String encode(String currency) {
         return currency;
     }

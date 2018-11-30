@@ -52,12 +52,13 @@ public abstract class MarketData {
 
     protected abstract ExchangeSpecification createSpecification(String apiKey, String secretKey);
     protected abstract SymbolConverter getSymbolConverter();
+    protected abstract String getName();
 
     public void run() throws IOException {
-        LOGGER.info("Start");
+        LOGGER.info("{} Start", getName());
 
         double total = portfolio.currencies().stream().mapToDouble(this::normalizedQty).sum();
-        LOGGER.info("Total: {}", total);
+        LOGGER.info("{} Total: {} BTC, {} USD", getName(), total, toUsd(total));
 
         final Balance btcBalance = balances.get(BTC);
 
@@ -104,9 +105,13 @@ public abstract class MarketData {
                 .sorted(String::compareTo)
                 .forEach(currency -> LOGGER.info("{}", balances.get(currency)));
 
-        LOGGER.info("{}", String.format("Total fee: %.8f BTC %.4f USD", totalFee, converterService.get(BTC, USD).convert(totalFee)));
+        LOGGER.info("{} {}", getName(), String.format("Total fee: %.8f BTC %.4f USD", this.totalFee, toUsd(this.totalFee)));
 
-        LOGGER.info("Stop");
+        LOGGER.info("{} Stop", getName());
+    }
+
+    private double toUsd(double btcQty) {
+        return converterService.get(BTC, USD).convert(btcQty);
     }
 
     private static double calculateFee(double qty) {

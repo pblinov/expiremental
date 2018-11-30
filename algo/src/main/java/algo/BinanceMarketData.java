@@ -24,6 +24,11 @@ public class BinanceMarketData extends MarketData implements SymbolConverter {
     }
 
     @Override
+    protected String getName() {
+        return "Binance";
+    }
+
+    @Override
     public String encode(String currency) {
         switch (currency) {
             case "USD":
