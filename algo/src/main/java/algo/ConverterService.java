@@ -25,19 +25,21 @@ public class ConverterService {
                             SymbolConverter symbolConverter) throws IOException {
         for (String base : currencies) {
             for (String quote : currencies) {
-                final CurrencyPair pair = new CurrencyPair(symbolConverter.encode(base), symbolConverter.encode(quote));
-                final CurrencyPairMetaData data = metaData.getCurrencyPairs().get(pair);
-                if (data != null) {
-                    try {
-                        final Ticker ticker = marketDataService.getTicker(pair);
-                        final Converter converter = new Converter(base, quote,
-                                data.getMinimumAmount().doubleValue(),
-                                ticker.getBid().doubleValue(),
-                                ticker.getAsk().doubleValue());
-                        converters.add(converter);
-                        LOGGER.info("{}", converter);
-                    } catch (IOException e) {
-                        LOGGER.error("Cannot load ticker {}", pair);
+                if (MarketData.isMain(base) || MarketData.isMain(quote)) {
+                    final CurrencyPair pair = new CurrencyPair(symbolConverter.encode(base), symbolConverter.encode(quote));
+                    final CurrencyPairMetaData data = metaData.getCurrencyPairs().get(pair);
+                    if (data != null) {
+                        try {
+                            final Ticker ticker = marketDataService.getTicker(pair);
+                            final Converter converter = new Converter(base, quote,
+                                    data.getMinimumAmount().doubleValue(),
+                                    ticker.getBid().doubleValue(),
+                                    ticker.getAsk().doubleValue());
+                            converters.add(converter);
+                            LOGGER.info("{}", converter);
+                        } catch (IOException e) {
+                            LOGGER.error("Cannot load ticker {}", pair);
+                        }
                     }
                 }
             }

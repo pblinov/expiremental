@@ -41,6 +41,10 @@ public abstract class MarketData {
         converterService = new ConverterService(marketDataService, metaData, portfolio.currencies(), getSymbolConverter());
     }
 
+    static boolean isMain(String currency) {
+        return currency.equals(BTC) || currency.equals(USD);
+    }
+
     private Exchange createExchange(String apiKey, String secretKey) {
         ExchangeSpecification specification = createSpecification(apiKey, secretKey);
         return ExchangeFactory.INSTANCE.createExchange(specification);
