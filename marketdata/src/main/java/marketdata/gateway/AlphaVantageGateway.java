@@ -1,7 +1,6 @@
 package marketdata.gateway;
 
 import marketdata.transport.Quote;
-import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -13,8 +12,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.text.MessageFormat;
-import java.util.List;
+import java.util.*;
+
+import static marketdata.gateway.AlphaVantageParser.createFormatter;
 
 /**
  * @author pblinov
@@ -25,8 +27,15 @@ public class AlphaVantageGateway {
 
     private static String URL_TEMPLATE = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={0}&interval=1min&apikey={1}&datatype=csv";
     private static String[] symbols = {"BAC", "F", "GE", "TWTR", "T", "C", "SNAP", "GM", "MSFT", "RAD", "HPQ", "ORCL", "VZ", "CVS", "AAPL", "GOOG", "DB"};
+    static {
+        Arrays.sort(symbols);
+        for (String symbol : symbols) {
+            System.out.print(symbol + ", ");
+        }
+    }
 
     private String key;
+    private Map<String, Long> lastTimestamps = new HashMap<>();
 
     public static void main(String[] args) throws IOException {
         AlphaVantageGateway gateway = new AlphaVantageGateway("SUHFH5L4JEFMI7OT");
@@ -43,11 +52,18 @@ public class AlphaVantageGateway {
 
     public void start() throws IOException {
         LOGGER.info("Symbol counter: {}", symbols.length);
-        for (String symbol : symbols) {
-            String url = createUrl(symbol);
-            LOGGER.info(url);
+        for (int i = 0; i < 10; i++) {
+            for (String symbol : symbols) {
+                String url = createUrl(symbol);
+                LOGGER.trace(url);
 
-            consumeQuotes(url, symbol);
+                consumeQuotes(url, symbol);
+            }
+            try {
+                Thread.sleep(30_000L);
+            } catch (InterruptedException e) {
+                LOGGER.error("Cannot sleep", e);
+            }
         }
     }
 
@@ -59,13 +75,34 @@ public class AlphaVantageGateway {
         CloseableHttpResponse response = client.execute(request, context);
 
         try {
-            LOGGER.info("Status: {}", response.getStatusLine());
+            LOGGER.trace("Status: {}", response.getStatusLine());
             HttpEntity entity = response.getEntity();
             List<Quote> quotes = AlphaVantageParser.parse(symbol, entity.getContent());
             EntityUtils.consume(entity);
-            LOGGER.info("{} - {} - {}", symbol, quotes.size(), quotes.get(0).getPrice());
+            print(symbol, quotes);
         } finally {
             response.close();
         }
+    }
+
+    private void print(String symbol, List<Quote> quotes) {
+        Long lastTimestamp = lastTimestamps.get(symbol);
+        if (lastTimestamp == null) {
+            lastTimestamp = 0L;
+        }
+        long newLastTimestamp = 0L;
+        for (Quote quote : quotes) {
+            if (quote.getTimestamp() > lastTimestamp) {
+                newLastTimestamp = quote.getTimestamp();
+                LOGGER.info("{} {} {} {} {}", quote.getSymbol(), formatTime(quote.getTimestamp()), quote.getType(), quote.getPrice(), quote.getSize());
+            }
+        }
+        if (newLastTimestamp > 0) {
+            lastTimestamps.put(symbol, newLastTimestamp);
+        }
+    }
+
+    private String formatTime(long timestamp) {
+        return createFormatter().format(new Date(timestamp));
     }
 }

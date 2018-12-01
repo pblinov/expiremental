@@ -7,12 +7,12 @@ import org.apache.commons.csv.CSVRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static java.nio.charset.Charset.defaultCharset;
@@ -38,26 +38,27 @@ public class AlphaVantageParser {
             LOGGER.error("Cannot parse", e);
         }
 
+        Collections.reverse(result);
         return result;
     }
 
     private static Quote parseBid(String symbol, CSVRecord record) throws ParseException {
-        Quote bidQuote = new Quote();
-        bidQuote.setSymbol(symbol);
-        bidQuote.setTimestamp(decodeTimestamp(record.get("timestamp")));
-        bidQuote.setType(QuoteType.BID);
+        Quote bidQuote = createQuote(QuoteType.BID, symbol, record);
         bidQuote.setPrice(decodePrice(record.get("high")));
-        bidQuote.setSize(decodeVolume(record.get("volume")));
         return bidQuote;
     }
 
     private static Quote parseAsk(String symbol, CSVRecord record) throws ParseException {
-        Quote bidQuote = new Quote();
-        bidQuote.setSymbol(symbol);
+        Quote askQuote = createQuote(QuoteType.ASK, symbol, record);
+        askQuote.setPrice(decodePrice(record.get("low")));
+        return askQuote;
+    }
+
+    private static Quote createQuote(QuoteType type, String symbol, CSVRecord record) throws ParseException {
+        Quote bidQuote = new Quote(type, symbol);
         bidQuote.setTimestamp(decodeTimestamp(record.get("timestamp")));
-        bidQuote.setType(QuoteType.ASK);
-        bidQuote.setPrice(decodePrice(record.get("low")));
         bidQuote.setSize(decodeVolume(record.get("volume")));
+        bidQuote.setReceivedTimestamp(System.currentTimeMillis());
         return bidQuote;
     }
 
@@ -70,6 +71,10 @@ public class AlphaVantageParser {
     }
 
     private static long decodeTimestamp(String timestamp) throws ParseException {
-        return new SimpleDateFormat("yyyy-mm-dd hh:MM:ss").parse(timestamp).getTime();
+        return createFormatter().parse(timestamp).getTime();
+    }
+
+    public static SimpleDateFormat createFormatter() {
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     }
 }

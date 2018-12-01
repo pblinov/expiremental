@@ -20,7 +20,7 @@ public class TestZmqSub {
     static long counter = 0;
 
     public static void main(String[] args) throws InterruptedException {
-        ZmqSubscriberTransport transport = new ZmqSubscriberTransport("tcp://localhost:7777", HWM_SIZE);
+        ZmqSubscriberTransport transport = new ZmqSubscriberTransport("tcp://localhost:8888", HWM_SIZE);
         transport.subscribe("AAPL");
 
         final long start = System.currentTimeMillis();

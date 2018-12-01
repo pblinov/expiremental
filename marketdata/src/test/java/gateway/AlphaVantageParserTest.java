@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import static marketdata.gateway.AlphaVantageParser.createFormatter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -27,16 +28,16 @@ public class AlphaVantageParserTest {
 
         Quote quote = quotes.get(0);
         assertEquals("AAPL", quote.getSymbol());
-        assertEquals("2016-10-04 04:12:00", new SimpleDateFormat("yyyy-mm-dd hh:MM:ss").format(quote.getTimestamp()));
-        assertEquals(QuoteType.BID, quote.getType());
-        assertEquals(Long.valueOf(73212), quote.getSize());
-        assertEquals(new BigDecimal("951.9100"), quote.getPrice());
+        assertEquals("2017-10-04 14:08:00", createFormatter().format(quote.getTimestamp()));
+        assertEquals(QuoteType.ASK, quote.getType());
+        assertEquals(Long.valueOf(500), quote.getSize());
+        assertEquals(new BigDecimal("954.3000"), quote.getPrice());
 
         quote = quotes.get(1);
         assertEquals("AAPL", quote.getSymbol());
-        assertEquals("2016-10-04 04:12:00", new SimpleDateFormat("yyyy-mm-dd hh:MM:ss").format(quote.getTimestamp()));
-        assertEquals(QuoteType.ASK, quote.getType());
-        assertEquals(Long.valueOf(73212), quote.getSize());
-        assertEquals(new BigDecimal("950.9400"), quote.getPrice());
+        assertEquals("2017-10-04 14:08:00", createFormatter().format(quote.getTimestamp()));
+        assertEquals(QuoteType.BID, quote.getType());
+        assertEquals(Long.valueOf(500), quote.getSize());
+        assertEquals(new BigDecimal("954.3200"), quote.getPrice());
     }
 }

@@ -15,6 +15,14 @@ public class Quote {
     private Long timestamp;
     private Long receivedTimestamp;
 
+    public Quote() {
+    }
+
+    public Quote(QuoteType type, String symbol) {
+        this.type = type;
+        this.symbol = symbol;
+    }
+
     public QuoteType getType() {
         return type;
     }
