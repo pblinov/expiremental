@@ -10,9 +10,7 @@ import org.knowm.xchange.exmo.dto.trade.ExmoTradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ExmoMarketData extends MarketData implements SymbolConverter {
@@ -63,5 +61,13 @@ public class ExmoMarketData extends MarketData implements SymbolConverter {
             default:
                 return currency;
         }
+    }
+
+    protected Date getPositionThreshold() {
+        final Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, 2018);
+        calendar.set(Calendar.MONTH, Calendar.OCTOBER);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        return calendar.getTime();
     }
 }

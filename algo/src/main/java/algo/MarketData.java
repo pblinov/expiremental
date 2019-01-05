@@ -11,7 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,7 +40,15 @@ public abstract class MarketData {
         ExchangeMetaData metaData = exchange.getExchangeMetaData();
         converterService = new ConverterService(getName(), marketDataService, metaData, portfolio.currencies(), getSymbolConverter());
 
-        tradeHistory = new TradeHistory(getName(), exchange.getTradeService(), getTradeHistoryParams(), getSymbolConverter());
+        tradeHistory = new TradeHistory(getName(), exchange.getTradeService(), getTradeHistoryParams(), getSymbolConverter(), getPositionThreshold());
+    }
+
+    protected Date getPositionThreshold() {
+        final Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, 2018);
+        calendar.set(Calendar.MONTH, Calendar.SEPTEMBER);
+        calendar.set(Calendar.DAY_OF_MONTH, 15);
+        return calendar.getTime();
     }
 
     protected abstract Collection<TradeHistoryParams> getTradeHistoryParams();

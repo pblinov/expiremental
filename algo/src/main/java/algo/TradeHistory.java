@@ -8,9 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -20,15 +18,17 @@ public class TradeHistory {
     private final String exchange;
     private final Collection<TradeHistoryParams> params;
     private final SymbolConverter symbolConverter;
+    private final Date threshold;
 
     public TradeHistory(String exchange,
                         TradeService tradeService,
                         Collection<TradeHistoryParams> params,
-                        SymbolConverter symbolConverter) {
+                        SymbolConverter symbolConverter, Date threshold) {
         this.tradeService = tradeService;
         this.exchange = exchange;
         this.params = params;
         this.symbolConverter = symbolConverter;
+        this.threshold = threshold;
     }
 
     public Collection<Position> positions() {
@@ -38,17 +38,19 @@ public class TradeHistory {
                         final UserTrades trades = tradeService.getTradeHistory(param);
                         printTrades(trades);
                         final Map<Instrument, Position> result = new HashMap<>();
-                        trades.getUserTrades().forEach(trade -> {
-                            final Instrument instrument = new Instrument(
-                                    symbolConverter.decode(trade.getCurrencyPair().base.getSymbol()),
-                                    symbolConverter.decode(trade.getCurrencyPair().counter.getSymbol()));
-                            final Position position = result.computeIfAbsent(instrument, Position::new);
-                            final double quantity = trade.getOriginalAmount().doubleValue();
-                            final double price = trade.getPrice().doubleValue();
-                            position.add(
-                                    trade.getType() == Order.OrderType.BID ? quantity : -quantity,
-                                    price);
-                        });
+                        trades.getUserTrades().stream()
+                                .filter(trade -> threshold.before(trade.getTimestamp()))
+                                .forEach(trade -> {
+                                    final Instrument instrument = new Instrument(
+                                            symbolConverter.decode(trade.getCurrencyPair().base.getSymbol()),
+                                            symbolConverter.decode(trade.getCurrencyPair().counter.getSymbol()));
+                                    final Position position = result.computeIfAbsent(instrument, Position::new);
+                                    final double quantity = trade.getOriginalAmount().doubleValue();
+                                    final double price = trade.getPrice().doubleValue();
+                                    position.add(
+                                            trade.getType() == Order.OrderType.BID ? quantity : -quantity,
+                                            price);
+                                });
                         return result.values().stream();
                     } catch (IOException e) {
                         LOGGER.warn("Cannot read trades", e);
