@@ -6,8 +6,8 @@ import org.knowm.xchange.binance.BinanceExchange;
 import java.io.IOException;
 
 public class BinanceMarketData extends MarketData implements SymbolConverter {
-    public BinanceMarketData(String apiKey, String secretKey) throws IOException {
-        super(apiKey, secretKey);
+    public BinanceMarketData(String apiKey, String secretKey, Portfolio portfolio) throws IOException {
+        super(apiKey, secretKey, portfolio);
     }
 
     @Override

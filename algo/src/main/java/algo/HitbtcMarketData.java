@@ -6,8 +6,8 @@ import org.knowm.xchange.hitbtc.v2.HitbtcExchange;
 import java.io.IOException;
 
 public class HitbtcMarketData extends MarketData implements SymbolConverter {
-    public HitbtcMarketData(String apiKey, String secretKey) throws IOException {
-        super(apiKey, secretKey);
+    public HitbtcMarketData(String apiKey, String secretKey, Portfolio portfolio) throws IOException {
+        super(apiKey, secretKey, portfolio);
     }
 
     @Override

@@ -6,8 +6,8 @@ import org.knowm.xchange.exmo.ExmoExchange;
 import java.io.IOException;
 
 public class ExmoMarketData extends MarketData implements SymbolConverter {
-    public ExmoMarketData(String apiKey, String secretKey) throws IOException {
-        super(apiKey, secretKey);
+    public ExmoMarketData(String apiKey, String secretKey, Portfolio portfolio) throws IOException {
+        super(apiKey, secretKey, portfolio);
     }
 
     @Override

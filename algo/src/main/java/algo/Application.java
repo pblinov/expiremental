@@ -1,14 +1,32 @@
 package algo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
+import java.util.Collection;
+import java.util.stream.Collectors;
+
+import static java.util.Arrays.asList;
 
 public class Application {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
+
     public static void main(String[] args) throws IOException {
-        MarketData binance = new BinanceMarketData(args[0], args[1]);
-        binance.run();
-        MarketData exmo = new ExmoMarketData(args[2], args[3]);
-        exmo.run();
-        MarketData hitbtc = new HitbtcMarketData(args[4], args[5]);
-        hitbtc.run();
+        final Portfolio portfolio = new Portfolio();
+
+        final Collection<MarketData> exchanges = asList(
+                new BinanceMarketData(args[0], args[1], portfolio),
+                new ExmoMarketData(args[2], args[3], portfolio),
+                new HitbtcMarketData(args[4], args[5], portfolio)
+        );
+
+        final Balances totalBalances = new TotalBalances(exchanges.stream()
+                .map(MarketData::getBalances)
+                .collect(Collectors.toList()));
+
+        portfolio.currencies().forEach(currency -> {
+            LOGGER.info("Total {}: {}", currency, totalBalances.getBalance(currency).getCurrent());
+        });
     }
 }
