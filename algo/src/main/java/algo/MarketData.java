@@ -38,7 +38,7 @@ public abstract class MarketData {
         ExchangeMetaData metaData = exchange.getExchangeMetaData();
         converterService = new ConverterService(getName(), marketDataService, metaData, portfolio.currencies(), getSymbolConverter());
 
-        tradeHistory = new TradeHistory(getName(), exchange.getTradeService(), getTradeHistoryParams());
+        tradeHistory = new TradeHistory(getName(), exchange.getTradeService(), getTradeHistoryParams(), getSymbolConverter());
     }
 
     protected abstract Collection<TradeHistoryParams> getTradeHistoryParams();

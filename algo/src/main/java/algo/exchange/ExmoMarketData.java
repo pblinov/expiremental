@@ -57,6 +57,11 @@ public class ExmoMarketData extends MarketData implements SymbolConverter {
 
     @Override
     public String decode(String currency) {
-        return currency;
+        switch (currency) {
+            case "руб.":
+                return "RUB";
+            default:
+                return currency;
+        }
     }
 }

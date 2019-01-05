@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+import static algo.MarketData.USD;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 
@@ -33,7 +34,14 @@ public class Application {
                 .map(MarketData::getConverterService)
                 .collect(Collectors.toList()));
 
-        exchanges.forEach(exchange -> exchange.getTradeHistory().print());
+        exchanges.forEach(exchange -> {
+            final TradeHistory tradeHistory = exchange.getTradeHistory();
+            final Collection<Position> positions = tradeHistory.positions();
+            LOGGER.debug("{}: {}", exchange.getName(), positions);
+            final double totalClosedPosition = positions.stream().mapToDouble(position -> converters.getConverter(position.getInstrument().getQuote(), USD).convert(position.getClosedPosition())).sum();
+            final double totalOpenPosition = positions.stream().mapToDouble(position -> converters.getConverter(position.getInstrument().getBase(), USD).convert(position.getOpenPosition())).sum();
+            LOGGER.info("{} total: {} USD", exchange.getName(), totalClosedPosition + totalOpenPosition);
+        });
 
         final Strategy strategy = new Strategy(balances, portfolio, converters);
         strategy.run();
