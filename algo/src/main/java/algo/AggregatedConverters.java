@@ -20,7 +20,7 @@ public class AggregatedConverters implements Converters {
             try {
                 return converterService.getConverter(base, quote);
             } catch (IllegalStateException e) {
-                LOGGER.warn("{} Cannot convert {} to {}", converterService.getExchange(), base, quote);
+                LOGGER.debug("{} Cannot convert {} to {}", converterService.getExchange(), base, quote);
             }
         }
         throw new IllegalStateException(String.format("Cannot convert %s to %s", base, quote));

@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-import static algo.MarketData.BTC;
-import static algo.MarketData.USD;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 
@@ -32,13 +30,7 @@ public class Application {
                 .map(MarketData::getConverterService)
                 .collect(Collectors.toList()));
 
-        portfolio.currencies().forEach(currency -> {
-            LOGGER.info("Total {}: {}", currency, balances.getBalance(currency).getCurrent());
-        });
-
-        final double total = portfolio.currencies().stream()
-                .mapToDouble(currency -> converters.getConverter(currency, BTC).convert(balances.getBalance(currency).getCurrent()))
-                .sum();
-        LOGGER.info(format("Total: %.4f BTC, %.2f USD", total, converters.getConverter(BTC, USD).convert(total)));
+        final Strategy strategy = new Strategy(balances, portfolio, converters);
+        strategy.run();
     }
 }
