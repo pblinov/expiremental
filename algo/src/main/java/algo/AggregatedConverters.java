@@ -5,18 +5,18 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 
-public class AverageConverterService implements ConverterServiceInterface {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AverageConverterService.class);
+public class AggregatedConverters implements Converters {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AggregatedConverters.class);
 
-    private final Collection<ConverterServiceInterface> converterServices;
+    private final Collection<Converters> converterServices;
 
-    public AverageConverterService(Collection<ConverterServiceInterface> converterServices) {
+    public AggregatedConverters(Collection<Converters> converterServices) {
         this.converterServices = converterServices;
     }
 
     @Override
     public Converter getConverter(String base, String quote) {
-        for (ConverterServiceInterface converterService : converterServices) {
+        for (Converters converterService : converterServices) {
             try {
                 return converterService.getConverter(base, quote);
             } catch (IllegalStateException e) {

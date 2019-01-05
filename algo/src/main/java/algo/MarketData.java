@@ -22,7 +22,7 @@ public abstract class MarketData {
 
     private final Balances balances;
     private final Portfolio portfolio;
-    private final ConverterServiceInterface converterService;
+    private final Converters converterService;
     private double totalFee = 0.0;
 
     public MarketData(String apiKey, String secretKey, Portfolio portfolio) throws IOException {
@@ -128,7 +128,7 @@ public abstract class MarketData {
         return balances;
     }
 
-    public ConverterServiceInterface getConverterService() {
+    public Converters getConverterService() {
         return converterService;
     }
 }

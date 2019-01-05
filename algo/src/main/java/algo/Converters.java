@@ -1,6 +1,6 @@
 package algo;
 
-public interface ConverterServiceInterface {
+public interface Converters {
     Converter getConverter(String base, String quote);
     String getExchange();
 }

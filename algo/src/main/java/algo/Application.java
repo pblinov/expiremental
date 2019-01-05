@@ -24,11 +24,11 @@ public class Application {
                 new HitbtcMarketData(args[4], args[5], portfolio)
         );
 
-        final Balances balances = new TotalBalances(exchanges.stream()
+        final Balances balances = new AggregatedBalances(exchanges.stream()
                 .map(MarketData::getBalances)
                 .collect(Collectors.toList()));
 
-        final ConverterServiceInterface converterService = new AverageConverterService(exchanges.stream()
+        final Converters converters = new AggregatedConverters(exchanges.stream()
                 .map(MarketData::getConverterService)
                 .collect(Collectors.toList()));
 
@@ -37,8 +37,8 @@ public class Application {
         });
 
         final double total = portfolio.currencies().stream()
-                .mapToDouble(currency -> converterService.getConverter(currency, BTC).convert(balances.getBalance(currency).getCurrent()))
+                .mapToDouble(currency -> converters.getConverter(currency, BTC).convert(balances.getBalance(currency).getCurrent()))
                 .sum();
-        LOGGER.info(format("Total: %.4f BTC, %.2f USD", total, converterService.getConverter(BTC, USD).convert(total)));
+        LOGGER.info(format("Total: %.4f BTC, %.2f USD", total, converters.getConverter(BTC, USD).convert(total)));
     }
 }

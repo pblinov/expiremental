@@ -14,7 +14,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-public class ConverterService implements ConverterServiceInterface {
+public class ConverterService implements Converters {
     private static final Logger LOGGER = LoggerFactory.getLogger(ConverterService.class);
 
     private final List<Converter> converters = new ArrayList<>();
