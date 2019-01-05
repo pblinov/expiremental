@@ -1,13 +1,30 @@
-package algo;
+package algo.exchange;
 
+import algo.MarketData;
+import algo.Portfolio;
+import algo.SymbolConverter;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.binance.BinanceExchange;
+import org.knowm.xchange.binance.service.BinanceTradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static java.util.stream.Stream.concat;
 
 public class BinanceMarketData extends MarketData implements SymbolConverter {
     public BinanceMarketData(String apiKey, String secretKey, Portfolio portfolio) throws IOException {
         super(apiKey, secretKey, portfolio);
+    }
+
+    @Override
+    protected Collection<TradeHistoryParams> getTradeHistoryParams() {
+        return Stream.of(pairs(BTC), pairs(USD), pairs(ETH), pairs(BNB))
+                .flatMap(pairs -> pairs.stream().map(BinanceTradeHistoryParams::new))
+                .collect(Collectors.toList());
     }
 
     @Override

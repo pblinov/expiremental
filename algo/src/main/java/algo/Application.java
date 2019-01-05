@@ -1,5 +1,8 @@
 package algo;
 
+import algo.exchange.BinanceMarketData;
+import algo.exchange.ExmoMarketData;
+import algo.exchange.HitbtcMarketData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,6 +32,8 @@ public class Application {
         final Converters converters = new AggregatedConverters(exchanges.stream()
                 .map(MarketData::getConverterService)
                 .collect(Collectors.toList()));
+
+        exchanges.forEach(exchange -> exchange.getTradeHistory().print());
 
         final Strategy strategy = new Strategy(balances, portfolio, converters);
         strategy.run();
