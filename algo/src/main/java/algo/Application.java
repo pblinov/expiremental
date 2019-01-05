@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+import static algo.MarketData.BTC;
+import static algo.MarketData.USD;
 import static java.util.Arrays.asList;
 
 public class Application {
@@ -21,12 +23,21 @@ public class Application {
                 new HitbtcMarketData(args[4], args[5], portfolio)
         );
 
-        final Balances totalBalances = new TotalBalances(exchanges.stream()
+        final Balances balances = new TotalBalances(exchanges.stream()
                 .map(MarketData::getBalances)
                 .collect(Collectors.toList()));
 
+        final ConverterServiceInterface converterService = new AverageConverterService(exchanges.stream()
+                .map(MarketData::getConverterService)
+                .collect(Collectors.toList()));
+
         portfolio.currencies().forEach(currency -> {
-            LOGGER.info("Total {}: {}", currency, totalBalances.getBalance(currency).getCurrent());
+            LOGGER.info("Total {}: {}", currency, balances.getBalance(currency).getCurrent());
         });
+
+        final double total = portfolio.currencies().stream()
+                .mapToDouble(currency -> converterService.getConverter(currency, BTC).convert(balances.getBalance(currency).getCurrent()))
+                .sum();
+        LOGGER.info("Total: {} BTC, {} USD", total, converterService.getConverter(BTC, USD).convert(total));
     }
 }

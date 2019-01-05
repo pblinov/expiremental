@@ -21,16 +21,17 @@ public abstract class MarketData {
 
     private final Balances balances;
     private final Portfolio portfolio;
-    private final ConverterService converterService;
+    private final ConverterServiceInterface converterService;
     private double totalFee = 0.0;
 
     public MarketData(String apiKey, String secretKey, Portfolio portfolio) throws IOException {
         this.portfolio = portfolio;
         Exchange exchange = createExchange(apiKey, secretKey);
+        balances = new BalanceCache(getName(), getSymbolConverter(), exchange.getAccountService());
+
         MarketDataService marketDataService = exchange.getMarketDataService();
         ExchangeMetaData metaData = exchange.getExchangeMetaData();
-        balances = new BalanceCache(getName(), getSymbolConverter(), exchange.getAccountService());
-        converterService = new ConverterService(marketDataService, metaData, portfolio.currencies(), getSymbolConverter());
+        converterService = new ConverterService(getName(), marketDataService, metaData, portfolio.currencies(), getSymbolConverter());
     }
 
     static boolean isMain(String currency) {
@@ -64,7 +65,7 @@ public abstract class MarketData {
                     final Balance balance = balances.getBalance(currency);
                     balance.setExpected(balance.getCurrent() * (1 + ratio));
                     if (Math.abs(ratio) > LIMIT) {
-                        final Converter converter = converterService.get(currency, BTC);
+                        final Converter converter = converterService.getConverter(currency, BTC);
                         final double baseQty = converter.round(balance.getCurrent() * ratio);
                         final double quoteQty = converter.convert(baseQty);
                         balance.add(baseQty);
@@ -82,7 +83,7 @@ public abstract class MarketData {
             final Balance balance = balances.getBalance(currency);
             balance.setExpected(balance.getCurrent() * (1 + ratio));
             if (Math.abs(ratio) > LIMIT) {
-                final Converter converter = converterService.get(BTC, USD);
+                final Converter converter = converterService.getConverter(BTC, USD);
                 final double baseQty = converter.round(-converter.reverse().convert(balance.getCurrent() * ratio));
                 final double quoteQty = converter.convert(baseQty);
                 balance.add(-quoteQty);
@@ -103,7 +104,7 @@ public abstract class MarketData {
     }
 
     private double toUsd(double btcQty) {
-        return converterService.get(BTC, USD).convert(btcQty);
+        return converterService.getConverter(BTC, USD).convert(btcQty);
     }
 
     private static double calculateFee(double qty) {
@@ -119,10 +120,14 @@ public abstract class MarketData {
     }
 
     private double normalizedQty(String currency) {
-        return converterService.get(currency, BTC).convert(balances.getBalance(currency).getCurrent());
+        return converterService.getConverter(currency, BTC).convert(balances.getBalance(currency).getCurrent());
     }
 
     public Balances getBalances() {
         return balances;
+    }
+
+    public ConverterServiceInterface getConverterService() {
+        return converterService;
     }
 }

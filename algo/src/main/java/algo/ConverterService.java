@@ -14,15 +14,18 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-public class ConverterService {
+public class ConverterService implements ConverterServiceInterface {
     private static final Logger LOGGER = LoggerFactory.getLogger(ConverterService.class);
 
     private final List<Converter> converters = new ArrayList<>();
+    private final String exchange;
 
-    public ConverterService(MarketDataService marketDataService,
+    public ConverterService(String exchange,
+                            MarketDataService marketDataService,
                             ExchangeMetaData metaData,
                             Collection<String> currencies,
                             SymbolConverter symbolConverter) throws IOException {
+        this.exchange = exchange;
         for (String base : currencies) {
             for (String quote : currencies) {
                 if (MarketData.isMain(base) || MarketData.isMain(quote)) {
@@ -46,7 +49,8 @@ public class ConverterService {
         }
     }
 
-    public Converter get(String base, String quote) {
+    @Override
+    public Converter getConverter(String base, String quote) {
         if (base.equals(quote)) {
             return new Converter(base, quote, 1.0, 1.0, 1.0);
         }
@@ -79,7 +83,8 @@ public class ConverterService {
                     .findFirst();
     }
 
-    public double convert(double qty, String base, String quote) {
-        return qty * get(base, quote).getAsk();
+    @Override
+    public String getExchange() {
+        return exchange;
     }
 }
