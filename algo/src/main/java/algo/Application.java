@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import static algo.MarketData.BTC;
 import static algo.MarketData.USD;
+import static java.lang.String.format;
 import static java.util.Arrays.asList;
 
 public class Application {
@@ -38,6 +39,6 @@ public class Application {
         final double total = portfolio.currencies().stream()
                 .mapToDouble(currency -> converterService.getConverter(currency, BTC).convert(balances.getBalance(currency).getCurrent()))
                 .sum();
-        LOGGER.info("Total: {} BTC, {} USD", total, converterService.getConverter(BTC, USD).convert(total));
+        LOGGER.info(format("Total: %.4f BTC, %.2f USD", total, converterService.getConverter(BTC, USD).convert(total)));
     }
 }

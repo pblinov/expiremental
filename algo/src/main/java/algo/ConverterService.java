@@ -65,15 +65,7 @@ public class ConverterService implements ConverterServiceInterface {
             return converter1.get().reverse();
         }
 
-        return new Converter(base, quote, 0, 0, 0) {
-            @Override
-            public double convert(double qty) {
-                if (qty == 0) {
-                    return 0;
-                }
-                throw new IllegalStateException(String.format("Cannot convert %s to %s", base, quote));
-            }
-        };
+        throw new IllegalStateException(String.format("Cannot convert %s to %s", base, quote));
     }
 
     private Optional<Converter> find(String base, String quote) {

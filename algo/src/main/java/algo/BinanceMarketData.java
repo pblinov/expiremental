@@ -33,6 +33,8 @@ public class BinanceMarketData extends MarketData implements SymbolConverter {
         switch (currency) {
             case "USD":
                 return "USDT";
+            case "BCH":
+                return "BCHABC";
             default:
                 return currency;
         }
@@ -43,6 +45,8 @@ public class BinanceMarketData extends MarketData implements SymbolConverter {
         switch (currency) {
             case "USDT":
                 return "USD";
+            case "BCHABC":
+                return "BCH";
             default:
                 return currency;
         }

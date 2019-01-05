@@ -16,6 +16,7 @@ public abstract class MarketData {
     public static final String BTC = "BTC";
     public static final String ETH = "ETH";
     public static final String USD = "USD";
+    public static final String RUB = "RUB";
     private static final double FEE = 0.075 / 100;
     private static final double LIMIT = 0.04;
 
