@@ -5,7 +5,7 @@ repositories {
 }
 
 ext {
-    xchangeVersion = '4.3.12'
+    xchangeVersion = '4.3.13'
     slf4jVersion = '1.7.25'
 }
 
