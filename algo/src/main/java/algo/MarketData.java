@@ -11,10 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public abstract class MarketData {
@@ -38,7 +35,9 @@ public abstract class MarketData {
 
         MarketDataService marketDataService = exchange.getMarketDataService();
         ExchangeMetaData metaData = exchange.getExchangeMetaData();
-        converterService = new ConverterService(getName(), marketDataService, metaData, portfolio.currencies(), getSymbolConverter());
+        Collection<String> currencies = new ArrayList<>(portfolio.currencies());
+        currencies.add("USDF");
+        converterService = new ConverterService(getName(), marketDataService, metaData, currencies, getSymbolConverter());
 
         tradeHistory = new TradeHistory(getName(), exchange.getTradeService(), getTradeHistoryParams(), getSymbolConverter(), getPositionThreshold());
     }
@@ -54,7 +53,7 @@ public abstract class MarketData {
     protected abstract Collection<TradeHistoryParams> getTradeHistoryParams();
 
     static boolean isMain(String currency) {
-        return currency.equals(BTC) || currency.equals(USD);
+        return currency.equals(BTC) || currency.equals(USD) || currency.equals("USDF");
     }
 
     private Exchange createExchange(String apiKey, String secretKey) {

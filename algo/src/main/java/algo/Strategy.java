@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 
 import static algo.MarketData.BTC;
 import static algo.MarketData.USD;
+import static java.lang.String.format;
 
 public class Strategy {
     private static final Logger LOGGER = LoggerFactory.getLogger(Strategy.class);
@@ -30,7 +31,7 @@ public class Strategy {
         LOGGER.info("Start");
 
         double total = portfolio.currencies().stream().mapToDouble(this::normalizedQty).sum();
-        LOGGER.info("Total: {} BTC, {} USD", total, toUsd(total));
+        LOGGER.info(format("Total balance: %.4f BTC, %.2f USD", total, toUsd(total)));
 
         final Balance btcBalance = balances.getBalance(BTC);
 
@@ -51,7 +52,7 @@ public class Strategy {
                         btcBalance.add(-quoteQty);
                         final double fee = calculateFee(quoteQty);
                         totalFee += fee;
-                        LOGGER.info("{}", String.format("%.8f %s > %.8f %s (fee: %.8f)", baseQty, currency, -quoteQty, BTC, fee));
+                        LOGGER.info("{}", format("%.8f %s > %.8f %s (fee: %.8f)", baseQty, currency, -quoteQty, BTC, fee));
                     }
                 });
 
@@ -69,7 +70,7 @@ public class Strategy {
                 btcBalance.add(baseQty);
                 final double fee = calculateFee(baseQty);
                 totalFee += fee;
-                LOGGER.info("{}", String.format("%.8f %s > %.8f %s (fee: %.8f)", baseQty, BTC, -quoteQty, currency, fee));
+                LOGGER.info("{}", format("%.8f %s > %.8f %s (fee: %.8f)", baseQty, BTC, -quoteQty, currency, fee));
             }
         });
 
@@ -77,7 +78,7 @@ public class Strategy {
                 .sorted(String::compareTo)
                 .forEach(currency -> LOGGER.info("{}", balances.getBalance(currency)));
 
-        LOGGER.info("{}", String.format("Total fee: %.8f BTC %.4f USD", this.totalFee, toUsd(this.totalFee)));
+        LOGGER.info("{}", format("Total fee: %.8f BTC %.4f USD", this.totalFee, toUsd(this.totalFee)));
 
         LOGGER.info("Stop");
     }

@@ -34,14 +34,19 @@ public class Application {
                 .map(MarketData::getConverterService)
                 .collect(Collectors.toList()));
 
-        exchanges.forEach(exchange -> {
-            final TradeHistory tradeHistory = exchange.getTradeHistory();
-            final Collection<Position> positions = tradeHistory.positions();
-            LOGGER.debug("{}: {}", exchange.getName(), positions);
-            final double totalClosedPosition = positions.stream().mapToDouble(position -> converters.getConverter(position.getInstrument().getQuote(), USD).convert(position.getClosedPosition())).sum();
-            final double totalOpenPosition = positions.stream().mapToDouble(position -> converters.getConverter(position.getInstrument().getBase(), USD).convert(position.getOpenPosition())).sum();
-            LOGGER.info("{} total: {} USD", exchange.getName(), totalClosedPosition + totalOpenPosition);
-        });
+        double totalPosition = exchanges.stream()
+                .mapToDouble(exchange -> {
+                    final TradeHistory tradeHistory = exchange.getTradeHistory();
+                    final Collection<Position> positions = tradeHistory.positions();
+                    LOGGER.debug("{}: {}", exchange.getName(), positions);
+                    final double totalClosedPosition = positions.stream().mapToDouble(position -> converters.getConverter(position.getInstrument().getQuote(), USD).convert(position.getClosedPosition())).sum();
+                    final double totalOpenPosition = positions.stream().mapToDouble(position -> converters.getConverter(position.getInstrument().getBase(), USD).convert(position.getOpenPosition())).sum();
+                    LOGGER.info("{} total: {} USD", exchange.getName(), totalClosedPosition + totalOpenPosition);
+                    return totalClosedPosition + totalOpenPosition;
+                })
+                .sum();
+
+        LOGGER.info(format("Total position: %.2f USD", totalPosition));
 
         final Strategy strategy = new Strategy(balances, portfolio, converters);
         strategy.run();

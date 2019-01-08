@@ -65,6 +65,14 @@ public class ConverterService implements Converters {
             return converter1.get().reverse();
         }
 
+        if (MarketData.USD.equals(quote)) {
+            // When exchange support USD & USDT
+            final Optional<Converter> converter2 = find(base, "USDF");
+            if (converter2.isPresent()) {
+                return converter2.get();
+            }
+        }
+
         throw new IllegalStateException(String.format("Cannot convert %s to %s", base, quote));
     }
 
