@@ -13,7 +13,7 @@ import static java.lang.String.format;
 public class Strategy {
     private static final Logger LOGGER = LoggerFactory.getLogger(Strategy.class);
 
-    private static final double FEE = 0.075 / 100;
+    private static final double FEE = 0.2 / 100;
     private static final double LIMIT = 0.04;
 
     private final Balances balances;
