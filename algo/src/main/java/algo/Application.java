@@ -13,17 +13,20 @@ import java.util.stream.Collectors;
 import static algo.MarketData.USD;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
+import static java.util.Arrays.fill;
 
 public class Application {
     private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
 
     public static void main(String[] args) throws IOException {
         final Portfolio portfolio = new Portfolio();
+        final TradeHistoryWriter tradeHistoryWriter = new TradeHistoryWriter();
+        final BalanceWriter balanceWriter = new BalanceWriter();
 
         final Collection<MarketData> exchanges = asList(
-                new BinanceMarketData(args[0], args[1], portfolio),
-                new ExmoMarketData(args[2], args[3], portfolio),
-                new HitbtcMarketData(args[4], args[5], portfolio)
+                new BinanceMarketData(args[0], args[1], portfolio, tradeHistoryWriter, balanceWriter),
+                new ExmoMarketData(args[2], args[3], portfolio, tradeHistoryWriter, balanceWriter),
+                new HitbtcMarketData(args[4], args[5], portfolio, tradeHistoryWriter, balanceWriter)
         );
 
         final Balances balances = new AggregatedBalances(exchanges.stream()
@@ -50,5 +53,8 @@ public class Application {
 
         final Strategy strategy = new Strategy(balances, portfolio, converters);
         strategy.run();
+
+        tradeHistoryWriter.close();
+        balanceWriter.close();
     }
 }

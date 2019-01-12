@@ -1,24 +1,17 @@
 package algo.exchange;
 
-import algo.MarketData;
-import algo.Portfolio;
-import algo.SymbolConverter;
+import algo.*;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.binance.service.BinanceTradeHistoryParams;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.hitbtc.v2.HitbtcExchange;
-import org.knowm.xchange.hitbtc.v2.service.HitbtcTradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 
-import static java.util.Arrays.asList;
-
 public class HitbtcMarketData extends MarketData implements SymbolConverter {
-    public HitbtcMarketData(String apiKey, String secretKey, Portfolio portfolio) throws IOException {
-        super(apiKey, secretKey, portfolio);
+    public HitbtcMarketData(String apiKey, String secretKey, Portfolio portfolio, TradeHistoryWriter tradeHistoryWriter, BalanceWriter balanceWriter) throws IOException {
+        super(apiKey, secretKey, portfolio, tradeHistoryWriter, balanceWriter);
     }
 
     @Override

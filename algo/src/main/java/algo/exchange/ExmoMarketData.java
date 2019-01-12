@@ -1,21 +1,20 @@
 package algo.exchange;
 
-import algo.MarketData;
-import algo.Portfolio;
-import algo.SymbolConverter;
+import algo.*;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exmo.ExmoExchange;
 import org.knowm.xchange.exmo.dto.trade.ExmoTradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
 import java.io.IOException;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
 
 public class ExmoMarketData extends MarketData implements SymbolConverter {
-    public ExmoMarketData(String apiKey, String secretKey, Portfolio portfolio) throws IOException {
-        super(apiKey, secretKey, portfolio);
+    public ExmoMarketData(String apiKey, String secretKey, Portfolio portfolio, TradeHistoryWriter tradeHistoryWriter, BalanceWriter balanceWriter) throws IOException {
+        super(apiKey, secretKey, portfolio, tradeHistoryWriter, balanceWriter);
     }
 
     @Override

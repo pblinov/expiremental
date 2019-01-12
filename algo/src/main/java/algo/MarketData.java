@@ -19,6 +19,7 @@ public abstract class MarketData {
     public static final String BTC = "BTC";
     public static final String ETH = "ETH";
     public static final String USD = "USD";
+    public static final String USDF = "USDF";
     public static final String RUB = "RUB";
     public static final String BNB = "BNB";
 
@@ -28,18 +29,19 @@ public abstract class MarketData {
     private final TradeHistory tradeHistory;
     protected final Exchange exchange;
 
-    public MarketData(String apiKey, String secretKey, Portfolio portfolio) throws IOException {
+    public MarketData(String apiKey, String secretKey, Portfolio portfolio,
+                      TradeHistoryWriter tradeHistoryWriter,
+                      BalanceWriter balanceWriter) throws IOException {
         this.portfolio = portfolio;
         exchange = createExchange(apiKey, secretKey);
-        balances = new BalanceCache(getName(), getSymbolConverter(), exchange.getAccountService());
 
         MarketDataService marketDataService = exchange.getMarketDataService();
         ExchangeMetaData metaData = exchange.getExchangeMetaData();
         Collection<String> currencies = new ArrayList<>(portfolio.currencies());
         currencies.add("USDF");
         converterService = new ConverterService(getName(), marketDataService, metaData, currencies, getSymbolConverter());
-
-        tradeHistory = new TradeHistory(getName(), exchange.getTradeService(), getTradeHistoryParams(), getSymbolConverter(), getPositionThreshold());
+        balances = new BalanceCache(getName(), getSymbolConverter(), exchange.getAccountService(), balanceWriter, converterService);
+        tradeHistory = new TradeHistory(getName(), exchange.getTradeService(), getTradeHistoryParams(), getSymbolConverter(), getPositionThreshold(), tradeHistoryWriter);
     }
 
     protected Date getPositionThreshold() {

@@ -9,15 +9,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+
+import static algo.MarketData.*;
+import static java.util.Arrays.asList;
 
 public class ConverterService implements Converters {
     private static final Logger LOGGER = LoggerFactory.getLogger(ConverterService.class);
 
-    private final List<Converter> converters = new ArrayList<>();
+    private final List<SimpleConverter> converters = new ArrayList<>();
     private final String exchange;
 
     public ConverterService(String exchange,
@@ -29,12 +29,14 @@ public class ConverterService implements Converters {
         for (String base : currencies) {
             for (String quote : currencies) {
                 if (MarketData.isMain(base) || MarketData.isMain(quote)) {
-                    final CurrencyPair pair = new CurrencyPair(symbolConverter.encode(base), symbolConverter.encode(quote));
+                    final String encodedBase = symbolConverter.encode(base);
+                    final String encodedQuote = symbolConverter.encode(quote);
+                    final CurrencyPair pair = new CurrencyPair(encodedBase, encodedQuote);
                     final CurrencyPairMetaData data = metaData.getCurrencyPairs().get(pair);
                     if (data != null) {
                         try {
                             final Ticker ticker = marketDataService.getTicker(pair);
-                            final Converter converter = new Converter(base, quote,
+                            final SimpleConverter converter = new SimpleConverter(base, quote,
                                     data.getMinimumAmount().doubleValue(),
                                     ticker.getBid().doubleValue(),
                                     ticker.getAsk().doubleValue());
@@ -52,31 +54,41 @@ public class ConverterService implements Converters {
     @Override
     public Converter getConverter(String base, String quote) {
         if (base.equals(quote)) {
-            return new Converter(base, quote, 1.0, 1.0, 1.0);
+            return new SimpleConverter(base, quote, 1.0, 1.0, 1.0);
         }
 
-        final Optional<Converter> converter = find(base, quote);
-        if (converter.isPresent()) {
-            return converter.get();
+        final Optional<SimpleConverter> direct = find(base, quote);
+        if (direct.isPresent()) {
+            return direct.get();
         }
 
-        final Optional<Converter> converter1 = find(quote, base);
-        if (converter1.isPresent()) {
-            return converter1.get().reverse();
+        final Optional<SimpleConverter> reverse = find(quote, base);
+        if (reverse.isPresent()) {
+            return reverse.get().reverse();
         }
 
-        if (MarketData.USD.equals(quote)) {
+        if (USD.equals(quote)) {
             // When exchange support USD & USDT
-            final Optional<Converter> converter2 = find(base, "USDF");
-            if (converter2.isPresent()) {
-                return converter2.get();
+            final Optional<SimpleConverter> usdFiat = find(base, USDF);
+            if (usdFiat.isPresent()) {
+                return usdFiat.get();
+            }
+        }
+
+        if (USD.equals(quote) && !BTC.equals(base)) {
+            final Optional<SimpleConverter> toBtc = find(base, BTC);
+            if (toBtc.isPresent()) {
+                final Optional<SimpleConverter> btcToBtc = find(BTC, USD);
+                if (btcToBtc.isPresent()) {
+                    return new TwoStepConverter(asList(toBtc.get(), btcToBtc.get()));
+                }
             }
         }
 
         throw new IllegalStateException(String.format("Cannot convert %s to %s", base, quote));
     }
 
-    private Optional<Converter> find(String base, String quote) {
+    private Optional<SimpleConverter> find(String base, String quote) {
         return converters.stream()
                     .filter(c -> c.getQuoteCurrency().equals(quote))
                     .filter(c -> c.getBaseCurrency().equals(base))

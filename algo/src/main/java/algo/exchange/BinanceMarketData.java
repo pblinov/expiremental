@@ -1,8 +1,6 @@
 package algo.exchange;
 
-import algo.MarketData;
-import algo.Portfolio;
-import algo.SymbolConverter;
+import algo.*;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.service.BinanceTradeHistoryParams;
@@ -13,11 +11,9 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static java.util.stream.Stream.concat;
-
 public class BinanceMarketData extends MarketData implements SymbolConverter {
-    public BinanceMarketData(String apiKey, String secretKey, Portfolio portfolio) throws IOException {
-        super(apiKey, secretKey, portfolio);
+    public BinanceMarketData(String apiKey, String secretKey, Portfolio portfolio, TradeHistoryWriter tradeHistoryWriter, BalanceWriter balanceWriter) throws IOException {
+        super(apiKey, secretKey, portfolio, tradeHistoryWriter, balanceWriter);
     }
 
     @Override

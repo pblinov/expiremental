@@ -19,16 +19,20 @@ public class TradeHistory {
     private final Collection<TradeHistoryParams> params;
     private final SymbolConverter symbolConverter;
     private final Date threshold;
+    private final TradeHistoryWriter tradeHistoryWriter;
 
     public TradeHistory(String exchange,
                         TradeService tradeService,
                         Collection<TradeHistoryParams> params,
-                        SymbolConverter symbolConverter, Date threshold) {
+                        SymbolConverter symbolConverter,
+                        Date threshold,
+                        TradeHistoryWriter tradeHistoryWriter) {
         this.tradeService = tradeService;
         this.exchange = exchange;
         this.params = params;
         this.symbolConverter = symbolConverter;
         this.threshold = threshold;
+        this.tradeHistoryWriter = tradeHistoryWriter;
     }
 
     public Collection<Position> positions() {
@@ -36,9 +40,9 @@ public class TradeHistory {
                 .flatMap(param -> {
                     try {
                         final UserTrades trades = tradeService.getTradeHistory(param);
-                        printTrades(trades);
                         final Map<Instrument, Position> result = new HashMap<>();
                         trades.getUserTrades().stream()
+                                .peek(trade -> tradeHistoryWriter.write(exchange, trade))
                                 .filter(trade -> threshold.before(trade.getTimestamp()))
                                 .forEach(trade -> {
                                     final Instrument instrument = new Instrument(
@@ -58,20 +62,5 @@ public class TradeHistory {
                     }
                 })
                 .collect(Collectors.toList());
-    }
-
-    private void printTrades(UserTrades trades) {
-        trades.getUserTrades().forEach(trade -> {
-            LOGGER.debug("{} {} {} {}@{} #{} fee {} {} {}",
-                    exchange,
-                    trade.getCurrencyPair(),
-                    trade.getType(),
-                    trade.getOriginalAmount(),
-                    trade.getPrice(),
-                    trade.getId(),
-                    trade.getFeeAmount(),
-                    trade.getFeeCurrency(),
-                    trade.getTimestamp());
-        });
     }
 }

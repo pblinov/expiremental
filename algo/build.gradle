@@ -5,6 +5,7 @@ repositories {
 }
 
 ext {
+    commonsCsvVersion = '1.6'
     xchangeVersion = '4.3.13'
     slf4jVersion = '1.7.25'
 }
@@ -15,5 +16,7 @@ dependencies {
     compile "org.knowm.xchange:xchange-binance:$xchangeVersion"
     compile "org.knowm.xchange:xchange-exmo:$xchangeVersion"
     compile "org.knowm.xchange:xchange-hitbtc:$xchangeVersion"
+    compile "org.apache.commons:commons-csv:$commonsCsvVersion"
+
 }
 
