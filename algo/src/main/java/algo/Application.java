@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 import static algo.MarketData.USD;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
-import static java.util.Arrays.fill;
 
 public class Application {
     private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);

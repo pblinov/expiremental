@@ -13,8 +13,8 @@ import static java.lang.String.format;
 public class Strategy {
     private static final Logger LOGGER = LoggerFactory.getLogger(Strategy.class);
 
-    private static final double FEE = 0.2 / 100;
-    private static final double LIMIT = 0.04;
+    private static final double FEE = 0.2 / 100.0;
+    private static final double LIMIT = 20.0 / 100.0;
 
     private final Balances balances;
     private final Portfolio portfolio;
@@ -44,7 +44,7 @@ public class Strategy {
                     final double ratio = (expectedInBTC - currentInBTC) / currentInBTC;
                     final Balance balance = balances.getBalance(currency);
                     balance.setExpected(balance.getCurrent() * (1 + ratio));
-                    if (Math.abs(ratio) > LIMIT) {
+                    if (Math.abs(ratio) >= LIMIT) {
                         final Converter converter = converters.getConverter(currency, BTC);
                         final double baseQty = converter.round(balance.getCurrent() * ratio);
                         final double quoteQty = converter.convert(baseQty);
@@ -62,7 +62,7 @@ public class Strategy {
             final double ratio = (expectedInBTC - currentInBTC) / currentInBTC;
             final Balance balance = balances.getBalance(currency);
             balance.setExpected(balance.getCurrent() * (1 + ratio));
-            if (Math.abs(ratio) > LIMIT) {
+            if (Math.abs(ratio) >= LIMIT) {
                 final Converter converter = converters.getConverter(BTC, USD);
                 final double baseQty = converter.round(-converter.reverse().convert(balance.getCurrent() * ratio));
                 final double quoteQty = converter.convert(baseQty);
