@@ -14,7 +14,7 @@ public class Strategy {
     private static final Logger LOGGER = LoggerFactory.getLogger(Strategy.class);
 
     private static final double FEE = 0.2 / 100.0;
-    private static final double LIMIT = 20.0 / 100.0;
+    private static final double LIMIT = 2.0 / 100.0;
 
     private final Balances balances;
     private final Portfolio portfolio;

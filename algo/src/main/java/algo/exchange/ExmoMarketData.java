@@ -53,7 +53,7 @@ public class ExmoMarketData extends MarketData implements SymbolConverter {
             case "USDF":
                 return "USD";
             case "USD":
-                return "USDT";
+                return "USD";
             default:
             return currency;
         }
@@ -63,7 +63,7 @@ public class ExmoMarketData extends MarketData implements SymbolConverter {
     public String decode(String currency) {
         switch (currency) {
             case "USD":
-                return "USDF";
+                return "USD";
             case "USDT":
                 return "USD";
             case "руб.":

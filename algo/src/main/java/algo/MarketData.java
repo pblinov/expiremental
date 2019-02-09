@@ -38,7 +38,7 @@ public abstract class MarketData {
         MarketDataService marketDataService = exchange.getMarketDataService();
         ExchangeMetaData metaData = exchange.getExchangeMetaData();
         Collection<String> currencies = new ArrayList<>(portfolio.currencies());
-        currencies.add("USDF");
+        //currencies.add("USDF");
         converterService = new ConverterService(getName(), marketDataService, metaData, currencies, getSymbolConverter());
         balances = new BalanceCache(getName(), getSymbolConverter(), exchange.getAccountService(), balanceWriter, converterService);
         tradeHistory = new TradeHistory(getName(), exchange.getTradeService(), getTradeHistoryParams(), getSymbolConverter(), getPositionThreshold(), tradeHistoryWriter);
