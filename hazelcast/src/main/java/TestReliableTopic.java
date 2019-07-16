@@ -42,43 +42,37 @@ public class TestReliableTopic {
 
         final CountDownLatch latch = new CountDownLatch(COUNTER);
 
-        Executors.newSingleThreadScheduledExecutor().schedule(new Runnable() {
-            @Override
-            public void run() {
-                topic.publish("AAA");
+        Executors.newSingleThreadScheduledExecutor().schedule(() -> {
+            topic.publish("AAA");
 
 
-                LOGGER.info("LISTEN");
+            LOGGER.info("LISTEN");
 
-                MessageListener<String> messageListener = new MessageListener<String>() {
-                    @Override
-                    public void onMessage(Message<String> message) {
-                        LOGGER.info("RECEIVED: " + message.getMessageObject());
-                        //message.getPublishTime()
-                        latch.countDown();
-                    }
-                };
-                ReliableMessageListenerAdapter<String> reliableMessageListener = new ReliableMessageListenerAdapter<String>(messageListener) {
-                    @Override
-                    public long retrieveInitialSequence() {
-                        return 0;//rb.tailSequence() - 5;
-                    }
+            MessageListener<String> messageListener = message -> {
+                LOGGER.info("RECEIVED: " + message.getMessageObject());
+                //message.getPublishTime()
+                latch.countDown();
+            };
+            ReliableMessageListenerAdapter<String> reliableMessageListener = new ReliableMessageListenerAdapter<String>(messageListener) {
+                @Override
+                public long retrieveInitialSequence() {
+                    return 0;//rb.tailSequence() - 5;
+                }
 
-                    @Override
-                    public boolean isLossTolerant() {
-                        return true;
-                    }
+                @Override
+                public boolean isLossTolerant() {
+                    return true;
+                }
 
-                    @Override
-                    public boolean isTerminal(Throwable failure) {
-                        LOGGER.severe(failure.getMessage());
-                        return false;
-                    }
-                };
-                topic.addMessageListener(reliableMessageListener);
+                @Override
+                public boolean isTerminal(Throwable failure) {
+                    LOGGER.severe(failure.getMessage());
+                    return false;
+                }
+            };
+            topic.addMessageListener(reliableMessageListener);
 
-                topic.publish("BBB");
-            }
+            topic.publish("BBB");
         }, 40, TimeUnit.SECONDS);
 
 
