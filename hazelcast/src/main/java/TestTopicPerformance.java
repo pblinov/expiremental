@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 public class TestTopicPerformance {
     private static final Logger LOGGER = Logger.getLogger(TestTopicPerformance.class.getName());
 
-    private static final int COUNTER = 100000;
+    private static final int COUNTER = 1_000_000;
 
     public static void main(String [] args) {
         HazelcastInstance h1 = Hazelcast.newHazelcastInstance();
@@ -23,23 +23,17 @@ public class TestTopicPerformance {
         final ITopic<String> topic = h1.getTopic( TOPIC );
 
         final CountDownLatch latch = new CountDownLatch(COUNTER);
-        topic.addMessageListener(new MessageListener<String>() {
-            @Override
-            public void onMessage(Message message) {
-                //LOGGER.info("M: " + message.getMessageObject());
-                latch.countDown();
-            }
+        topic.addMessageListener(message -> {
+            LOGGER.info("M: " + message.getMessageObject());
+            latch.countDown();
         });
 
-        Executors.newSingleThreadExecutor().execute(new Runnable() {
-            @Override
-            public void run() {
-                final long start = System.currentTimeMillis();
-                for (int i = 0; i < COUNTER + 1; i++) {
-                    topic.publish(TestHazelcast.name(i));
-                }
-                LOGGER.info("PUB: " + (System.currentTimeMillis() - start) / (float) (COUNTER));
+        Executors.newSingleThreadExecutor().execute(() -> {
+            final long start1 = System.currentTimeMillis();
+            for (int i = 0; i < COUNTER + 1; i++) {
+                topic.publish(TestHazelcast.name(i));
             }
+            LOGGER.info("PUB: " + (System.currentTimeMillis() - start1) / (float) (COUNTER));
         });
 
         try {
