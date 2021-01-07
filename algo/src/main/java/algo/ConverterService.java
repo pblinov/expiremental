@@ -9,9 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.*;
 
 import static algo.MarketData.*;
+import static java.math.BigDecimal.ZERO;
 import static java.util.Arrays.asList;
 
 public class ConverterService implements Converters {
@@ -37,18 +39,24 @@ public class ConverterService implements Converters {
                         try {
                             final Ticker ticker = marketDataService.getTicker(pair);
                             final SimpleConverter converter = new SimpleConverter(base, quote,
-                                    data.getMinimumAmount().doubleValue(),
-                                    ticker.getBid().doubleValue(),
-                                    ticker.getAsk().doubleValue());
+                                    toDouble(data.getMinimumAmount()),
+                                    toDouble(ticker != null ? ticker.getBid() : ZERO),
+                                    toDouble(ticker != null ? ticker.getAsk() : ZERO));
                             converters.add(converter);
                             LOGGER.debug("{}", converter);
                         } catch (IOException e) {
                             LOGGER.error("Cannot load ticker {}", pair);
+                        } catch (Exception e) {
+                            throw new IllegalStateException(String.format("Cannot process %s on %s", pair, exchange), e);
                         }
                     }
                 }
             }
         }
+    }
+
+    private static double toDouble(BigDecimal value) {
+        return value != null ? value.doubleValue() : 0.0;
     }
 
     @Override

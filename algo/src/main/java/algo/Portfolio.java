@@ -23,7 +23,7 @@ public class Portfolio {
         final double rubLevel = 0.0;
         expectedLevels.put(RUB, rubLevel);
 
-        final String [] other = new String[] {"BCH", "BNB", "DASH", "EOS", "LTC", "NEO", "WAVES", "XMR", "ZEC", "TRX", "ADA", "XLM", "IOTA", "XRP"};
+        final String [] other = new String[] {"BCH", "BNB", "EOS", "LTC", "NEO", "XMR", "TRX", "ADA", "XLM", "XRP"};
 
         final double level = (1 - usdLevel - ethLevel - btcLevel - rubLevel) / other.length;
         Stream.of(other).forEach(currency -> expectedLevels.put(currency, level));
