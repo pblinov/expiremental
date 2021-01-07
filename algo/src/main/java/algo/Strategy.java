@@ -14,7 +14,7 @@ public class Strategy {
     private static final Logger LOGGER = LoggerFactory.getLogger(Strategy.class);
 
     private static final double FEE = 0.2 / 100.0;
-    private static final double LIMIT = 2.0 / 100.0;
+    private static final double LIMIT = 5.0 / 100.0;
 
     private final Balances balances;
     private final Portfolio portfolio;
@@ -31,7 +31,7 @@ public class Strategy {
         LOGGER.info("Start");
 
         double total = portfolio.currencies().stream().mapToDouble(this::normalizedQty).sum();
-        LOGGER.info(format("Total balance: %.4f BTC, %.2f USD", total, toUsd(total)));
+        LOGGER.info("[STATE] {}", format("Total balance: %.4f BTC, %.2f USD", total, toUsd(total)));
 
         final Balance btcBalance = balances.getBalance(BTC);
 
@@ -52,7 +52,7 @@ public class Strategy {
                         btcBalance.add(-quoteQty);
                         final double fee = calculateFee(quoteQty);
                         totalFee += fee;
-                        LOGGER.info("{}", format("%.8f %s > %.8f %s (fee: %.8f)", baseQty, currency, -quoteQty, BTC, fee));
+                        LOGGER.info("[ACTION] {}", format("%.8f %s > %.8f %s (diff: $%.1f, fee: %.8f)", baseQty, currency, -quoteQty, BTC, toUsd(expectedInBTC - currentInBTC), fee));
                     }
                 });
 
@@ -70,15 +70,23 @@ public class Strategy {
                 btcBalance.add(baseQty);
                 final double fee = calculateFee(baseQty);
                 totalFee += fee;
-                LOGGER.info("{}", format("%.8f %s > %.8f %s (fee: %.8f)", baseQty, BTC, -quoteQty, currency, fee));
+                LOGGER.info("[ACTION] {}", format("%.8f %s > %.8f %s (diff: $%.1f, fee: %.8f)", baseQty, BTC, -quoteQty, currency, toUsd(currentInBTC - expectedInBTC), fee));
             }
         });
 
+        Stream.of(BTC).forEach(currency -> {
+            final double currentInBTC = round(normalizedQty(currency));
+            final double expectedInBTC = round(total * portfolio.get(currency));
+            final double ratio = (expectedInBTC - currentInBTC) / currentInBTC;
+            final Balance balance = balances.getBalance(currency);
+            balance.setExpected(balance.getCurrent() * (1 + ratio));
+        });
+
+        LOGGER.info("[STATE] {}", format("Total fee: %.8f BTC %.4f USD", this.totalFee, toUsd(this.totalFee)));
+
         portfolio.currencies().stream()
                 .sorted(String::compareTo)
-                .forEach(currency -> LOGGER.info("{}", balances.getBalance(currency)));
-
-        LOGGER.info("{}", format("Total fee: %.8f BTC %.4f USD", this.totalFee, toUsd(this.totalFee)));
+                .forEach(currency -> LOGGER.info("[STATE] {}", balances.getBalance(currency)));
 
         LOGGER.info("Stop");
     }
