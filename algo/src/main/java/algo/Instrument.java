@@ -1,14 +1,12 @@
 package algo;
 
-import com.sun.istack.internal.NotNull;
-
 import static java.lang.String.format;
 
 public class Instrument {
     private final String base;
     private final String quote;
 
-    public Instrument(@NotNull String base, @NotNull String quote) {
+    public Instrument(String base, String quote) {
         this.base = base;
         this.quote = quote;
     }

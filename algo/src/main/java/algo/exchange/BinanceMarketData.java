@@ -57,6 +57,7 @@ public class BinanceMarketData extends MarketData implements SymbolConverter {
     public String decode(String currency) {
         switch (currency) {
             case "USDT":
+            case "$":
                 return "USD";
             case "BCH":
                 return "BCH";

@@ -51,6 +51,7 @@ public class HitbtcMarketData extends MarketData implements SymbolConverter {
     public String decode(String currency) {
         switch (currency) {
             case "USDT":
+            case "$":
                 return "USD";
             default:
                 return currency;
