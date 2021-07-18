@@ -6,7 +6,7 @@ repositories {
 
 ext {
     commonsCsvVersion = '1.6'
-    xchangeVersion = '5.0.8'
+    xchangeVersion = '5.0.9'
     slf4jVersion = '1.7.25'
 }
 
