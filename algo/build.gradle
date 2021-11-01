@@ -6,17 +6,16 @@ repositories {
 
 ext {
     commonsCsvVersion = '1.6'
-    xchangeVersion = '5.0.9'
+    xchangeVersion = '5.0.11'
     slf4jVersion = '1.7.25'
 }
 
 dependencies {
-    compile "org.slf4j:slf4j-api:$slf4jVersion"
-    compile "org.slf4j:slf4j-simple:$slf4jVersion"
-    compile "org.knowm.xchange:xchange-binance:$xchangeVersion"
-    compile "org.knowm.xchange:xchange-exmo:$xchangeVersion"
-    compile "org.knowm.xchange:xchange-hitbtc:$xchangeVersion"
-    compile "org.apache.commons:commons-csv:$commonsCsvVersion"
-
+    implementation "org.slf4j:slf4j-api:$slf4jVersion"
+    implementation "org.slf4j:slf4j-simple:$slf4jVersion"
+    implementation "org.knowm.xchange:xchange-binance:$xchangeVersion"
+    implementation "org.knowm.xchange:xchange-exmo:$xchangeVersion"
+    implementation "org.knowm.xchange:xchange-hitbtc:$xchangeVersion"
+    implementation "org.apache.commons:commons-csv:$commonsCsvVersion"
 }
 

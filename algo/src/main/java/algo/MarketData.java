@@ -85,4 +85,8 @@ public abstract class MarketData {
     public TradeHistory getTradeHistory() {
         return tradeHistory;
     }
+
+    public Exchange getExchange() {
+        return exchange;
+    }
 }

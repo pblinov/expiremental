@@ -1,5 +1,6 @@
 package algo;
 
+import algo.order.OrderExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,11 +21,13 @@ public class Strategy {
     private final Portfolio portfolio;
     private final Converters converters;
     private double totalFee = 0.0;
+    private final OrderExecutor orderExecutor;
 
-    public Strategy(Balances balances, Portfolio portfolio, Converters converters) {
+    public Strategy(Balances balances, Portfolio portfolio, Converters converters, OrderExecutor orderExecutor) {
         this.balances = balances;
         this.portfolio = portfolio;
         this.converters = converters;
+        this.orderExecutor = orderExecutor;
     }
 
     public void run() throws IOException {
@@ -52,7 +55,7 @@ public class Strategy {
                         btcBalance.add(-quoteQty);
                         final double fee = calculateFee(quoteQty);
                         totalFee += fee;
-                        LOGGER.info("[ACTION] {}", format("%.8f %s > %.8f %s (diff: $%.1f, fee: %.8f)", baseQty, currency, -quoteQty, BTC, toUsd(expectedInBTC - currentInBTC), fee));
+                        orderExecutor.executeOrder(baseQty, -quoteQty, currency, BTC, toUsd(expectedInBTC - currentInBTC), fee);
                     }
                 });
 
@@ -70,7 +73,7 @@ public class Strategy {
                 btcBalance.add(baseQty);
                 final double fee = calculateFee(baseQty);
                 totalFee += fee;
-                LOGGER.info("[ACTION] {}", format("%.8f %s > %.8f %s (diff: $%.1f, fee: %.8f)", baseQty, BTC, -quoteQty, currency, toUsd(currentInBTC - expectedInBTC), fee));
+                orderExecutor.executeOrder(baseQty, -quoteQty, BTC, currency, toUsd(currentInBTC - expectedInBTC), fee);
             }
         });
 

@@ -3,6 +3,7 @@ package algo;
 import algo.exchange.BinanceMarketData;
 import algo.exchange.ExmoMarketData;
 import algo.exchange.HitbtcMarketData;
+import algo.order.DummyExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,14 +19,22 @@ public class Application {
     private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
 
     public static void main(String[] args) throws IOException {
+        final var binanceApiKey = args[0];
+        final var binanceSecretKey = args[1];
+        final var exmoApiKey = args[2];
+        final var exmoSecretKey = args[3];
+        final var hitbtcApiKey = args[4];
+        final var hitbtcSecretKey = args[5];
+
         final Portfolio portfolio = new Portfolio();
         final TradeHistoryWriter tradeHistoryWriter = new TradeHistoryWriter();
         final BalanceWriter balanceWriter = new BalanceWriter();
 
+        var binanceMarketData = new BinanceMarketData(binanceApiKey, binanceSecretKey, portfolio, tradeHistoryWriter, balanceWriter);
         final Collection<MarketData> exchanges = asList(
-                new BinanceMarketData(args[0], args[1], portfolio, tradeHistoryWriter, balanceWriter),
-                new ExmoMarketData(args[2], args[3], portfolio, tradeHistoryWriter, balanceWriter),
-                new HitbtcMarketData(args[4], args[5], portfolio, tradeHistoryWriter, balanceWriter)
+                binanceMarketData,
+                new ExmoMarketData(exmoApiKey, exmoSecretKey, portfolio, tradeHistoryWriter, balanceWriter),
+                new HitbtcMarketData(hitbtcApiKey, hitbtcSecretKey, portfolio, tradeHistoryWriter, balanceWriter)
         );
 
         final Balances balances = new AggregatedBalances(exchanges.stream()
@@ -50,7 +59,9 @@ public class Application {
 
         LOGGER.info(format("Total position: %.2f USD", totalPosition));
 
-        final Strategy strategy = new Strategy(balances, portfolio, converters);
+        //var orderExecutor = new BinanceExecutor(binanceMarketData);
+        var orderExecutor = new DummyExecutor();
+        final Strategy strategy = new Strategy(balances, portfolio, converters, orderExecutor);
         strategy.run();
 
         tradeHistoryWriter.close();
