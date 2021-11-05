@@ -1,19 +1,15 @@
 package algo;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
-import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.dto.account.Balance;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.Closeable;
 import java.io.FileWriter;
 import java.io.IOException;
 
+@Slf4j
 public class BalanceWriter implements Closeable {
-    private static final Logger LOGGER = LoggerFactory.getLogger(BalanceWriter.class);
-
     private final CSVPrinter printer;
 
     public BalanceWriter() throws IOException {
@@ -44,7 +40,7 @@ public class BalanceWriter implements Closeable {
                     usdQty
             );
         } catch (IOException e) {
-            LOGGER.warn("Cannot write balance", e);
+            log.warn("Cannot write balance", e);
         }
     }
 }

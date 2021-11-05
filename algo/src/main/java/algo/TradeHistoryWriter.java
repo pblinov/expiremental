@@ -1,10 +1,9 @@
 package algo;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.knowm.xchange.dto.trade.UserTrade;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.Closeable;
 import java.io.FileWriter;
@@ -12,9 +11,8 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+@Slf4j
 public class TradeHistoryWriter implements Closeable {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TradeHistoryWriter.class);
-
     private final DateFormat format = new SimpleDateFormat("YYYY-MM-dd");
     private final CSVPrinter printer;
 
@@ -52,7 +50,7 @@ public class TradeHistoryWriter implements Closeable {
                     format.format(trade.getTimestamp())
             );
         } catch (IOException e) {
-            LOGGER.warn("{} Cannot write trade: {}", exchange, trade, e);
+            log.warn("{} Cannot write trade: {}", exchange, trade, e);
         }
     }
 }

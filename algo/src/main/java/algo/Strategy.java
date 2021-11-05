@@ -1,8 +1,7 @@
 package algo;
 
 import algo.order.OrderExecutor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.stream.Stream;
@@ -11,9 +10,8 @@ import static algo.MarketData.BTC;
 import static algo.MarketData.USD;
 import static java.lang.String.format;
 
+@Slf4j
 public class Strategy {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Strategy.class);
-
     private static final double FEE = 0.2 / 100.0;
     private static final double LIMIT = 5.0 / 100.0;
 
@@ -31,10 +29,10 @@ public class Strategy {
     }
 
     public void run() throws IOException {
-        LOGGER.info("Start");
+        log.info("Start");
 
         double total = portfolio.currencies().stream().mapToDouble(this::normalizedQty).sum();
-        LOGGER.info("[STATE] {}", format("Total balance: %.4f BTC, %.2f USD", total, toUsd(total)));
+        log.info("[STATE] {}", format("Total balance: %.4f BTC, %.2f USD", total, toUsd(total)));
 
         final Balance btcBalance = balances.getBalance(BTC);
 
@@ -85,13 +83,13 @@ public class Strategy {
             balance.setExpected(balance.getCurrent() * (1 + ratio));
         });
 
-        LOGGER.info("[STATE] {}", format("Total fee: %.8f BTC %.4f USD", this.totalFee, toUsd(this.totalFee)));
+        log.info("[STATE] {}", format("Total fee: %.8f BTC %.4f USD", this.totalFee, toUsd(this.totalFee)));
 
         portfolio.currencies().stream()
                 .sorted(String::compareTo)
-                .forEach(currency -> LOGGER.info("[STATE] {}", balances.getBalance(currency)));
+                .forEach(currency -> log.info("[STATE] {}", balances.getBalance(currency)));
 
-        LOGGER.info("Stop");
+        log.info("Stop");
     }
 
     private double toUsd(double btcQty) {

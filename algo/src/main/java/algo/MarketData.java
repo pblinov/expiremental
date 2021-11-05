@@ -1,5 +1,6 @@
 package algo;
 
+import lombok.extern.slf4j.Slf4j;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -7,15 +8,13 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Slf4j
 public abstract class MarketData {
-    private static final Logger LOGGER = LoggerFactory.getLogger(MarketData.class);
     public static final String BTC = "BTC";
     public static final String ETH = "ETH";
     public static final String USD = "USD";

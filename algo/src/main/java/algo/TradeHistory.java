@@ -1,19 +1,18 @@
 package algo;
 
+import lombok.extern.slf4j.Slf4j;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Slf4j
 public class TradeHistory {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TradeHistory.class);
     private final TradeService tradeService;
     private final String exchange;
     private final Collection<TradeHistoryParams> params;
@@ -57,7 +56,7 @@ public class TradeHistory {
                                 });
                         return result.values().stream();
                     } catch (IOException e) {
-                        LOGGER.warn("Cannot read trades", e);
+                        log.warn("Cannot read trades", e);
                         return Stream.empty();
                     }
                 })

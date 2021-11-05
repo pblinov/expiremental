@@ -3,9 +3,9 @@ package algo;
 import algo.exchange.BinanceMarketData;
 import algo.exchange.ExmoMarketData;
 import algo.exchange.HitbtcMarketData;
+import algo.order.BinanceExecutor;
 import algo.order.DummyExecutor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -15,9 +15,8 @@ import static algo.MarketData.USD;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 
+@Slf4j
 public class Application {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
-
     public static void main(String[] args) throws IOException {
         final var binanceApiKey = args[0];
         final var binanceSecretKey = args[1];
@@ -49,18 +48,18 @@ public class Application {
                 .mapToDouble(exchange -> {
                     final TradeHistory tradeHistory = exchange.getTradeHistory();
                     final Collection<Position> positions = tradeHistory.positions();
-                    LOGGER.debug("{}: {}", exchange.getName(), positions);
+                    log.debug("{}: {}", exchange.getName(), positions);
                     final double totalClosedPosition = positions.stream().mapToDouble(position -> converters.getConverter(position.getInstrument().getQuote(), USD).convert(position.getClosedPosition())).sum();
                     final double totalOpenPosition = positions.stream().mapToDouble(position -> converters.getConverter(position.getInstrument().getBase(), USD).convert(position.getOpenPosition())).sum();
-                    LOGGER.info("{} total: {} USD", exchange.getName(), totalClosedPosition + totalOpenPosition);
+                    log.info("{} total: {} USD", exchange.getName(), totalClosedPosition + totalOpenPosition);
                     return totalClosedPosition + totalOpenPosition;
                 })
                 .sum();
 
-        LOGGER.info(format("Total position: %.2f USD", totalPosition));
+        log.info(format("Total position: %.2f USD", totalPosition));
 
-        //var orderExecutor = new BinanceExecutor(binanceMarketData);
-        var orderExecutor = new DummyExecutor();
+        var orderExecutor = new BinanceExecutor(binanceMarketData);
+        //var orderExecutor = new DummyExecutor();
         final Strategy strategy = new Strategy(balances, portfolio, converters, orderExecutor);
         strategy.run();
 

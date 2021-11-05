@@ -8,6 +8,7 @@ ext {
     commonsCsvVersion = '1.6'
     xchangeVersion = '5.0.11'
     slf4jVersion = '1.7.25'
+    lombokVersion = '1.18.22'
 }
 
 dependencies {
@@ -17,5 +18,7 @@ dependencies {
     implementation "org.knowm.xchange:xchange-exmo:$xchangeVersion"
     implementation "org.knowm.xchange:xchange-hitbtc:$xchangeVersion"
     implementation "org.apache.commons:commons-csv:$commonsCsvVersion"
+    compileOnly "org.projectlombok:lombok:$lombokVersion"
+    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
 }
 

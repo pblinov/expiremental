@@ -1,24 +1,25 @@
 package algo;
 
+import lombok.extern.slf4j.Slf4j;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 import static algo.MarketData.*;
 import static java.math.BigDecimal.ZERO;
 import static java.util.Arrays.asList;
 
+@Slf4j
 public class ConverterService implements Converters {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ConverterService.class);
-
     private final List<SimpleConverter> converters = new ArrayList<>();
     private final String exchange;
 
@@ -43,9 +44,9 @@ public class ConverterService implements Converters {
                                     toDouble(ticker != null ? ticker.getBid() : ZERO),
                                     toDouble(ticker != null ? ticker.getAsk() : ZERO));
                             converters.add(converter);
-                            LOGGER.debug("{}", converter);
+                            log.debug("{}", converter);
                         } catch (IOException e) {
-                            LOGGER.error("Cannot load ticker {}", pair);
+                            log.error("Cannot load ticker {}", pair);
                         } catch (Exception e) {
                             throw new IllegalStateException(String.format("Cannot process %s on %s", pair, exchange), e);
                         }

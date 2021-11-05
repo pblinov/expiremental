@@ -1,11 +1,10 @@
 package algo;
 
+import lombok.extern.slf4j.Slf4j;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.service.account.AccountService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -16,8 +15,8 @@ import static algo.MarketData.BTC;
 import static algo.MarketData.USD;
 import static java.math.BigDecimal.ZERO;
 
+@Slf4j
 public class BalanceCache implements Balances {
-    private static final Logger LOGGER = LoggerFactory.getLogger(BalanceCache.class);
     private final Map<String, Balance> balances = new HashMap<>();
     private Collection<Wallet> wallets;
     private final SymbolConverter symbolConverter;
@@ -69,7 +68,7 @@ public class BalanceCache implements Balances {
         try {
             return converterService.getConverter(from, to).convert(qty);
         } catch (Exception e) {
-            LOGGER.warn("Cannot convert from {} to {}", from, to);
+            log.warn("Cannot convert from {} to {}", from, to);
             return 0.0;
         }
     }

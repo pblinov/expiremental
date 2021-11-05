@@ -1,11 +1,10 @@
 package algo;
 
+import lombok.extern.slf4j.Slf4j;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -13,9 +12,8 @@ import java.math.MathContext;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 public class PriceCache {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PriceCache.class);
-
     private final Map<String, BigDecimal> prices = new HashMap<>();
 
     private final MarketDataService marketDataService;
@@ -39,7 +37,7 @@ public class PriceCache {
         final String balanceCurrency = symbolConverter.encode(this.balanceCurrency);
         try {
             if (metaData.getCurrencyPairs().containsKey(new CurrencyPair(encodedCurrency, balanceCurrency))) {
-                LOGGER.info("{} minQty: {}", encodedCurrency, metaData.getCurrencyPairs().get(new CurrencyPair(encodedCurrency, balanceCurrency)).getMinimumAmount());
+                log.info("{} minQty: {}", encodedCurrency, metaData.getCurrencyPairs().get(new CurrencyPair(encodedCurrency, balanceCurrency)).getMinimumAmount());
                 Ticker ticker = marketDataService.getTicker(new CurrencyPair(encodedCurrency, balanceCurrency));
                 return ticker.getAsk();
             } else if (metaData.getCurrencyPairs().containsKey(new CurrencyPair(balanceCurrency, encodedCurrency))) {
@@ -55,7 +53,7 @@ public class PriceCache {
                 return BigDecimal.ZERO;
             }
         } catch (IOException e) {
-            LOGGER.error("Cannot find price of {}", encodedCurrency);
+            log.error("Cannot find price of {}", encodedCurrency);
             return BigDecimal.ZERO;
         }
     }
