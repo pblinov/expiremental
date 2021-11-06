@@ -13,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static algo.MarketData.USD;
@@ -29,45 +31,53 @@ public class Application {
         final var hitbtcApiKey = args[4];
         final var hitbtcSecretKey = args[5];
 
-        final Portfolio portfolio = new Portfolio();
-        final TradeHistoryWriter tradeHistoryWriter = new TradeHistoryWriterToDB();
-        final BalanceWriter balanceWriter = new BalanceWriter();
+        final var executor = Executors.newSingleThreadScheduledExecutor();
+        executor.scheduleAtFixedRate(() -> {
+            try {
+                final Portfolio portfolio = new Portfolio();
+                final TradeHistoryWriter tradeHistoryWriter = new TradeHistoryWriterToDB();
+                final BalanceWriter balanceWriter = new BalanceWriter();
 
-        var binanceMarketData = new BinanceMarketData(binanceApiKey, binanceSecretKey, portfolio, tradeHistoryWriter, balanceWriter);
-        final Collection<MarketData> exchanges = asList(
-                binanceMarketData,
-                new ExmoMarketData(exmoApiKey, exmoSecretKey, portfolio, tradeHistoryWriter, balanceWriter),
-                new HitbtcMarketData(hitbtcApiKey, hitbtcSecretKey, portfolio, tradeHistoryWriter, balanceWriter)
-        );
+                var binanceMarketData = new BinanceMarketData(binanceApiKey, binanceSecretKey, portfolio, tradeHistoryWriter, balanceWriter);
+                final Collection<MarketData> exchanges = asList(
+                        binanceMarketData,
+                        new ExmoMarketData(exmoApiKey, exmoSecretKey, portfolio, tradeHistoryWriter, balanceWriter),
+                        new HitbtcMarketData(hitbtcApiKey, hitbtcSecretKey, portfolio, tradeHistoryWriter, balanceWriter)
+                );
 
-        final Balances balances = new AggregatedBalances(exchanges.stream()
-                .map(MarketData::getBalances)
-                .collect(Collectors.toList()));
+                final Balances balances = new AggregatedBalances(exchanges.stream()
+                        .map(MarketData::getBalances)
+                        .collect(Collectors.toList()));
 
-        final Converters converters = new AggregatedConverters(exchanges.stream()
-                .map(MarketData::getConverterService)
-                .collect(Collectors.toList()));
+                final Converters converters = new AggregatedConverters(exchanges.stream()
+                        .map(MarketData::getConverterService)
+                        .collect(Collectors.toList()));
 
-        double totalPosition = exchanges.stream()
-                .mapToDouble(exchange -> {
-                    final TradeHistory tradeHistory = exchange.getTradeHistory();
-                    final Collection<Position> positions = tradeHistory.positions();
-                    log.debug("{}: {}", exchange.getName(), positions);
-                    final double totalClosedPosition = positions.stream().mapToDouble(position -> converters.getConverter(position.getInstrument().getQuote(), USD).convert(position.getClosedPosition())).sum();
-                    final double totalOpenPosition = positions.stream().mapToDouble(position -> converters.getConverter(position.getInstrument().getBase(), USD).convert(position.getOpenPosition())).sum();
-                    log.info("{} total: {} USD", exchange.getName(), totalClosedPosition + totalOpenPosition);
-                    return totalClosedPosition + totalOpenPosition;
-                })
-                .sum();
+                double totalPosition = exchanges.stream()
+                        .mapToDouble(exchange -> {
+                            final TradeHistory tradeHistory = exchange.getTradeHistory();
+                            final Collection<Position> positions = tradeHistory.positions();
+                            log.debug("{}: {}", exchange.getName(), positions);
+                            final double totalClosedPosition = positions.stream().mapToDouble(position -> converters.getConverter(position.getInstrument().getQuote(), USD).convert(position.getClosedPosition())).sum();
+                            final double totalOpenPosition = positions.stream().mapToDouble(position -> converters.getConverter(position.getInstrument().getBase(), USD).convert(position.getOpenPosition())).sum();
+                            log.info("{} total: {} USD", exchange.getName(), totalClosedPosition + totalOpenPosition);
+                            return totalClosedPosition + totalOpenPosition;
+                        })
+                        .sum();
 
-        log.info(format("Total position: %.2f USD", totalPosition));
+                log.info(format("Total position: %.2f USD", totalPosition));
 
-        var orderExecutor = new BinanceExecutor(binanceMarketData);
-        //var orderExecutor = new DummyExecutor();
-        final Strategy strategy = new Strategy(balances, portfolio, converters, orderExecutor);
-        strategy.run();
+                var orderExecutor = new BinanceExecutor(binanceMarketData);
+                //var orderExecutor = new DummyExecutor();
+                final Strategy strategy = new Strategy(balances, portfolio, converters, orderExecutor);
+                strategy.run();
 
-        tradeHistoryWriter.close();
-        balanceWriter.close();
+                tradeHistoryWriter.close();
+                balanceWriter.close();
+            } catch (IOException e) {
+                log.error("Cannot execute strategy", e);
+                System.exit(1);
+            }
+        }, 0, 30, TimeUnit.MINUTES);
     }
 }

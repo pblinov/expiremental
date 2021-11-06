@@ -2,6 +2,7 @@ package algo.history;
 
 import lombok.extern.slf4j.Slf4j;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.UserTrade;
 
 import java.io.IOException;
@@ -41,7 +42,7 @@ public class TradeHistoryWriterToDB implements TradeHistoryWriter {
                     insert.setString(2, trade.getId());
                     insert.setDate(3, new java.sql.Date(trade.getTimestamp().getTime()));
                     insert.setBigDecimal(4, trade.getOriginalAmount());
-                    insert.setBigDecimal(5, trade.getPrice());
+                    insert.setBigDecimal(5, trade.getType() == Order.OrderType.BID ? trade.getPrice() : trade.getPrice().negate());
                     insert.setString(6, pair.counter.getSymbol());
                     insert.setString(7, pair.toString());
                     insert.setBigDecimal(8, trade.getFeeAmount());
