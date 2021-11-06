@@ -1,5 +1,7 @@
 package algo;
 
+import algo.history.TradeHistory;
+import algo.history.TradeHistoryWriter;
 import lombok.extern.slf4j.Slf4j;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;

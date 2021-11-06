@@ -1,6 +1,7 @@
 package algo.exchange;
 
 import algo.*;
+import algo.history.TradeHistoryWriter;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.service.BinanceTradeHistoryParams;

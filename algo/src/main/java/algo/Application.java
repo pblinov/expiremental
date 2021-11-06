@@ -3,6 +3,10 @@ package algo;
 import algo.exchange.BinanceMarketData;
 import algo.exchange.ExmoMarketData;
 import algo.exchange.HitbtcMarketData;
+import algo.history.TradeHistory;
+import algo.history.TradeHistoryWriter;
+import algo.history.TradeHistoryWriterToCsv;
+import algo.history.TradeHistoryWriterToDB;
 import algo.order.BinanceExecutor;
 import algo.order.DummyExecutor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +30,7 @@ public class Application {
         final var hitbtcSecretKey = args[5];
 
         final Portfolio portfolio = new Portfolio();
-        final TradeHistoryWriter tradeHistoryWriter = new TradeHistoryWriter();
+        final TradeHistoryWriter tradeHistoryWriter = new TradeHistoryWriterToDB();
         final BalanceWriter balanceWriter = new BalanceWriter();
 
         var binanceMarketData = new BinanceMarketData(binanceApiKey, binanceSecretKey, portfolio, tradeHistoryWriter, balanceWriter);

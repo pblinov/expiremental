@@ -1,5 +1,8 @@
-package algo;
+package algo.history;
 
+import algo.Instrument;
+import algo.Position;
+import algo.SymbolConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.UserTrades;
