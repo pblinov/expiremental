@@ -23,6 +23,7 @@ public class ExmoMarketData extends MarketData implements SymbolConverter {
         return Arrays.asList(
                 new ExmoTradeHistoryParams(10, 0L, pairs(BTC)),
                 new ExmoTradeHistoryParams(10, 0L, pairs(USD)),
+                new ExmoTradeHistoryParams(10, 0L, pairs(USDT)),
                 new ExmoTradeHistoryParams(10, 0L, pairs(ETH)),
                 new ExmoTradeHistoryParams(10, 0L, pairs(RUB))
         );
@@ -50,29 +51,21 @@ public class ExmoMarketData extends MarketData implements SymbolConverter {
 
     @Override
     public String encode(String currency) {
-        switch (currency) {
-            case "USDF":
-                return "USD";
-            case "USD":
-                return "USD";
-            default:
-            return currency;
-        }
+        return switch (currency) {
+            case "USDF" -> "USD";
+            case "USD" -> "USD";
+            default -> currency;
+        };
     }
 
     @Override
     public String decode(String currency) {
-        switch (currency) {
-            case "USD":
-            case "$":
-                return "USD";
-            case "USDT":
-                return "USD";
-            case "руб.":
-                return "RUB";
-            default:
-                return currency;
-        }
+        return switch (currency) {
+            case "USD", "$" -> "USD";
+            case "USDT" -> "USD";
+            case "руб." -> "RUB";
+            default -> currency;
+        };
     }
 
     protected Date getPositionThreshold() {

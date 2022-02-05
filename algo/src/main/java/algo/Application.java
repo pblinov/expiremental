@@ -5,10 +5,8 @@ import algo.exchange.ExmoMarketData;
 import algo.exchange.HitbtcMarketData;
 import algo.history.TradeHistory;
 import algo.history.TradeHistoryWriter;
-import algo.history.TradeHistoryWriterToCsv;
 import algo.history.TradeHistoryWriterToDB;
 import algo.order.BinanceExecutor;
-import algo.order.DummyExecutor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -23,7 +21,7 @@ import static java.util.Arrays.asList;
 
 @Slf4j
 public class Application {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         final var binanceApiKey = args[0];
         final var binanceSecretKey = args[1];
         final var exmoApiKey = args[2];
@@ -34,7 +32,7 @@ public class Application {
         final var executor = Executors.newSingleThreadScheduledExecutor();
         executor.scheduleAtFixedRate(() -> {
             try {
-                final Portfolio portfolio = new Portfolio();
+                final Portfolio portfolio = new MainPortfolio();
                 final TradeHistoryWriter tradeHistoryWriter = new TradeHistoryWriterToDB();
                 final BalanceWriter balanceWriter = new BalanceWriter();
 

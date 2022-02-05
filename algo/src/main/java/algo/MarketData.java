@@ -21,6 +21,8 @@ public abstract class MarketData {
     public static final String ETH = "ETH";
     public static final String USD = "USD";
     public static final String USDF = "USDF";
+    public static final String USDT = "USDT";
+    public static final String BUSD = "BUSDT";
     public static final String RUB = "RUB";
     public static final String BNB = "BNB";
 
@@ -56,7 +58,7 @@ public abstract class MarketData {
     protected abstract Collection<TradeHistoryParams> getTradeHistoryParams();
 
     static boolean isMain(String currency) {
-        return currency.equals(BTC) || currency.equals(USD) || currency.equals("USDF");
+        return currency.equals(BTC) || currency.equals(USD) || currency.equals(USDF) || currency.equals(USDT) || currency.equals(BUSD);
     }
 
     private Exchange createExchange(String apiKey, String secretKey) {

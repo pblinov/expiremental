@@ -5,9 +5,9 @@ repositories {
 }
 
 ext {
-    commonsCsvVersion = '1.6'
-    xchangeVersion = '5.0.11'
-    slf4jVersion = '1.7.25'
+    commonsCsvVersion = '1.8'
+    xchangeVersion = '5.0.12'
+    slf4jVersion = '1.7.32'
     lombokVersion = '1.18.22'
     pgVersion = '42.3.1'
 }

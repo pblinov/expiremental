@@ -46,7 +46,7 @@ public class TradeHistoryWriterToDB implements TradeHistoryWriter {
                     insert.setString(6, pair.counter.getSymbol());
                     insert.setString(7, pair.toString());
                     insert.setBigDecimal(8, trade.getFeeAmount());
-                    insert.setString(9, trade.getFeeCurrency().getSymbol());
+                    insert.setString(9, trade.getFeeCurrency() != null ? trade.getFeeCurrency().getSymbol() : null);
 
                     insert.execute();
                     log.info("New trade persisted: {}", trade);
