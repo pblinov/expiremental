@@ -64,6 +64,7 @@ public class ExmoMarketData extends MarketData implements SymbolConverter {
             case "USD", "$" -> "USD";
             case "USDT" -> "USD";
             case "руб." -> "RUB";
+            case "₽" -> "RUB";
             default -> currency;
         };
     }

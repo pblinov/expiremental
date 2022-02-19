@@ -19,7 +19,7 @@ public class BinanceMarketData extends MarketData implements SymbolConverter {
 
     @Override
     protected Collection<TradeHistoryParams> getTradeHistoryParams() {
-        return Stream.of(pairs(BTC), pairs(USD), pairs(ETH), pairs(BNB))
+        return Stream.of(pairs(BTC), pairs(USD), pairs(ETH), pairs(BNB), pairs(BUSD))
                 .flatMap(pairs -> pairs.stream().map(BinanceTradeHistoryParams::new))
                 .collect(Collectors.toList());
     }

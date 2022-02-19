@@ -22,7 +22,7 @@ public abstract class MarketData {
     public static final String USD = "USD";
     public static final String USDF = "USDF";
     public static final String USDT = "USDT";
-    public static final String BUSD = "BUSDT";
+    public static final String BUSD = "BUSD";
     public static final String RUB = "RUB";
     public static final String BNB = "BNB";
 
